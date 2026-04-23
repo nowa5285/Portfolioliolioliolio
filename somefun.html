@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noah Wagner | Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-top: #2d2f63;
+      --bg-bottom: #16172f;
+      --text: #f7f5f0;
+      --muted: rgba(255,255,255,0.72);
+      --yellow: #d9ef4e;
+      --pink: #f3b8f8;
+      --blue: #8d90ff;
+      --card: rgba(255,255,255,0.08);
+      --line: rgba(255,255,255,0.14);
+      --panel: rgba(18, 18, 34, 0.92);
+      --pixel-green: #8df07a;
+      --pixel-cyan: #67d6ff;
+      --pixel-purple: #b485ff;
+      --pixel-ground: #2a345d;
+      --pixel-hill: #35457c;
+      --pixel-magenta: #ff75c8;
+      --pixel-orange: #ffb347;
+      --path-glow: rgba(103,214,255,0.24);
+      --path-main: rgba(255,255,255,0.28);
+      --path-progress: rgba(217,239,78,0.96);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(180deg, var(--bg-top) 0%, #232654 45%, var(--bg-bottom) 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .page {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .pixel-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      overflow: hidden;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 18%, rgba(141,144,255,0.14) 0, transparent 22%),
+        radial-gradient(circle at 78% 14%, rgba(243,184,248,0.11) 0, transparent 20%),
+        radial-gradient(circle at 50% 36%, rgba(255,117,200,0.08) 0, transparent 26%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+    }
+
+    .stars {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 12% 18%, rgba(255,255,255,0.9) 0 1px, transparent 1.6px),
+        radial-gradient(circle at 24% 44%, rgba(255,255,255,0.8) 0 1px, transparent 1.6px),
+        radial-gradient(circle at 33% 14%, rgba(255,255,255,0.7) 0 1px, transparent 1.6px),
+        radial-gradient(circle at 48% 28%, rgba(255,255,255,0.8) 0 1px, transparent 1.6px),
+        radial-gradient(circle at 58% 20%, rgba(255,255,255,0.65) 0 1px, transparent 1.6px),
+        radial-gradient(circle at 72% 10%, rgba(255,255,255,0.85) 0 1px, transparent 1.6px),
+        radial-gradient(circle at 84% 30%, rgba(255,255,255,0.75) 0 1px, transparent 1.6px),
+        radial-gradient(circle at 92% 18%, rgba(255,255,255,0.85) 0 1px, transparent 1.6px),
+        radial-gradient(circle at 16% 62%, rgba(103,214,255,0.85) 0 2px, transparent 2.6px),
+        radial-gradient(circle at 70% 58%, rgba(180,133,255,0.75) 0 2px, transparent 2.6px),
+        radial-gradient(circle at 44% 8%, rgba(255,179,71,0.7) 0 2px, transparent 2.6px);
+      opacity: 0.88;
+    }
+
+    .arcade-grid {
+      position: absolute;
+      left: -10%;
+      right: -10%;
+      bottom: 120px;
+      height: 250px;
+      background:
+        repeating-linear-gradient(90deg, rgba(103,214,255,0.18) 0 2px, transparent 2px 70px),
+        repeating-linear-gradient(180deg, rgba(103,214,255,0.12) 0 2px, transparent 2px 34px);
+      transform: perspective(420px) rotateX(72deg);
+      transform-origin: bottom;
+      opacity: 0.42;
+    }
+
+    .sun-pixel {
+      position: absolute;
+      right: 10%;
+      top: 9%;
+      width: 110px;
+      height: 110px;
+      background: linear-gradient(180deg, #fff8b2, #ffd95f);
+      box-shadow: 0 0 0 10px rgba(255,222,110,0.08), 0 0 50px rgba(255,222,110,0.2);
+      image-rendering: pixelated;
+      clip-path: polygon(20% 0%, 80% 0%, 80% 20%, 100% 20%, 100% 80%, 80% 80%, 80% 100%, 20% 100%, 20% 80%, 0% 80%, 0% 20%, 20% 20%);
+      opacity: 0.9;
+    }
+
+    .hill,
+    .hill-2,
+    .hill-3,
+    .ground,
+    .grid-city,
+    .floating-block,
+    .floating-block-2,
+    .floating-block-3,
+    .floating-block-4,
+    .palm,
+    .palm-2,
+    .arcade-orb {
+      position: absolute;
+      image-rendering: pixelated;
+    }
+
+    .hill {
+      left: -5%;
+      right: 46%;
+      bottom: 150px;
+      height: 180px;
+      background: linear-gradient(180deg, #4660aa, var(--pixel-hill));
+      clip-path: polygon(0 100%, 0 60%, 10% 54%, 20% 42%, 30% 48%, 40% 28%, 52% 36%, 64% 18%, 76% 34%, 88% 24%, 100% 40%, 100% 100%);
+      opacity: 0.82;
+    }
+
+    .hill-2 {
+      left: 36%;
+      right: -4%;
+      bottom: 146px;
+      height: 160px;
+      background: linear-gradient(180deg, #3d56a1, #2c3971);
+      clip-path: polygon(0 100%, 0 52%, 12% 44%, 24% 58%, 38% 26%, 50% 34%, 62% 22%, 76% 40%, 88% 28%, 100% 44%, 100% 100%);
+      opacity: 0.74;
+    }
+
+    .hill-3 {
+      left: 18%;
+      right: 22%;
+      bottom: 168px;
+      height: 120px;
+      background: linear-gradient(180deg, #634fd1, #2f3167);
+      clip-path: polygon(0 100%, 0 70%, 15% 44%, 28% 58%, 42% 22%, 56% 38%, 70% 18%, 84% 54%, 100% 34%, 100% 100%);
+      opacity: 0.55;
+    }
+
+    .grid-city {
+      left: 0;
+      right: 0;
+      bottom: 126px;
+      height: 120px;
+      background:
+        linear-gradient(90deg, transparent 0 4%, rgba(103,214,255,0.18) 4% 5%, transparent 5% 10%, rgba(103,214,255,0.14) 10% 11%, transparent 11% 16%, rgba(180,133,255,0.14) 16% 17%, transparent 17% 24%, rgba(255,117,200,0.14) 24% 25%, transparent 25% 31%, rgba(103,214,255,0.14) 31% 32%, transparent 32% 38%, rgba(217,239,78,0.12) 38% 39%, transparent 39% 46%, rgba(255,179,71,0.12) 46% 47%, transparent 47% 54%, rgba(103,214,255,0.14) 54% 55%, transparent 55% 63%, rgba(180,133,255,0.14) 63% 64%, transparent 64% 72%, rgba(255,117,200,0.14) 72% 73%, transparent 73% 81%, rgba(103,214,255,0.14) 81% 82%, transparent 82% 100%);
+      opacity: 0.45;
+    }
+
+    .ground {
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 150px;
+      background: linear-gradient(180deg, #2c3a68 0%, var(--pixel-ground) 100%);
+      border-top: 3px solid rgba(255,255,255,0.08);
+    }
+
+    .ground::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(255,255,255,0.04) 0 2%, transparent 2% 8%, rgba(255,255,255,0.03) 8% 10%, transparent 10% 16%, rgba(255,255,255,0.03) 16% 17%, transparent 17% 25%, rgba(255,255,255,0.03) 25% 26%, transparent 26% 36%, rgba(255,255,255,0.03) 36% 38%, transparent 38% 49%, rgba(255,255,255,0.03) 49% 50%, transparent 50% 61%, rgba(255,255,255,0.03) 61% 63%, transparent 63% 75%, rgba(255,255,255,0.03) 75% 76%, transparent 76% 88%, rgba(255,255,255,0.03) 88% 89%, transparent 89% 100%);
+      opacity: 0.5;
+    }
+
+    .floating-block,
+    .floating-block-2,
+    .floating-block-3,
+    .floating-block-4 {
+      width: 22px;
+      height: 22px;
+      background: linear-gradient(180deg, #91ecff, #7388ff);
+      box-shadow: 0 0 18px rgba(103,214,255,0.18);
+      animation: bobBlock 6s ease-in-out infinite;
+      opacity: 0.82;
+    }
+
+    .floating-block { left: 16%; top: 22%; }
+    .floating-block-2 { right: 20%; top: 34%; animation-delay: 1s; }
+    .floating-block-3 { left: 62%; top: 16%; animation-delay: 2s; }
+    .floating-block-4 { left: 44%; top: 26%; animation-delay: .5s; background: linear-gradient(180deg, #ff96db, #8f7fff); }
+
+    .arcade-orb {
+      width: 18px;
+      height: 18px;
+      border-radius: 0;
+      background: linear-gradient(180deg, #ffb347, #ff75c8);
+      box-shadow: 0 0 18px rgba(255,117,200,0.22);
+      animation: bobBlock 5s ease-in-out infinite;
+      opacity: 0.8;
+    }
+
+    .orb-1 { left: 24%; top: 30%; }
+    .orb-2 { right: 28%; top: 22%; animation-delay: 1.3s; }
+
+    .palm,
+    .palm-2 {
+      bottom: 150px;
+      width: 80px;
+      height: 120px;
+      opacity: 0.6;
+    }
+
+    .palm {
+      left: 10%;
+      background:
+        linear-gradient(180deg, transparent 0 44%, #ff75c8 44% 48%, transparent 48% 100%),
+        linear-gradient(90deg, transparent 0 44%, #67d6ff 44% 50%, transparent 50% 100%);
+      clip-path: polygon(45% 30%, 55% 30%, 55% 100%, 45% 100%, 45% 70%, 0% 52%, 16% 42%, 34% 46%, 8% 24%, 30% 28%, 45% 40%, 70% 24%, 92% 20%, 70% 44%, 100% 50%, 72% 58%, 55% 68%, 55% 30%);
+    }
+
+    .palm-2 {
+      right: 12%;
+      transform: scaleX(-1);
+      background:
+        linear-gradient(180deg, transparent 0 44%, #ff75c8 44% 48%, transparent 48% 100%),
+        linear-gradient(90deg, transparent 0 44%, #67d6ff 44% 50%, transparent 50% 100%);
+      clip-path: polygon(45% 30%, 55% 30%, 55% 100%, 45% 100%, 45% 70%, 0% 52%, 16% 42%, 34% 46%, 8% 24%, 30% 28%, 45% 40%, 70% 24%, 92% 20%, 70% 44%, 100% 50%, 72% 58%, 55% 68%, 55% 30%);
+    }
+
+    @keyframes bobBlock {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .hover-zone {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 110px;
+      height: 100vh;
+      z-index: 18;
+    }
+
+    .info-panel {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: min(34vw, 430px);
+      height: 100vh;
+      background: var(--panel);
+      border-right: 1px solid var(--line);
+      padding: 110px 34px 34px;
+      transform: translateX(-100%);
+      transition: transform .35s ease;
+      z-index: 19;
+      backdrop-filter: blur(14px);
+      overflow-y: auto;
+      border-top-right-radius: 34px;
+      border-bottom-right-radius: 34px;
+      box-shadow: 20px 0 40px rgba(0,0,0,0.22);
+    }
+
+    .hover-zone:hover + .info-panel,
+    .info-panel:hover {
+      transform: translateX(0);
+    }
+
+    .info-panel h2 {
+      font-size: 1.7rem;
+      margin-bottom: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .info-panel p {
+      color: rgba(255,255,255,0.76);
+      line-height: 1.75;
+      font-size: 0.95rem;
+      margin-bottom: 18px;
+    }
+
+    .info-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .info-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+    }
+
+    .info-card h3 {
+      font-size: 0.92rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .info-card span {
+      color: rgba(255,255,255,0.72);
+      font-size: 0.92rem;
+      line-height: 1.6;
+      display: block;
+    }
+
+    .side-nav {
+      position: fixed;
+      right: 28px;
+      top: 22px;
+      height: calc(100vh - 44px);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-end;
+      z-index: 20;
+      gap: 20px;
+    }
+
+    .start-link {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0.9;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+
+    .start-link:hover {
+      opacity: 1;
+      transform: translateX(-2px);
+    }
+
+    .start-link .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.5);
+      display: inline-block;
+    }
+
+    .nav-dots {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-top: 10px;
+      align-items: flex-end;
+    }
+
+    .nav-dots li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-dots a {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 191, 210, 0.95);
+      display: block;
+      transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+      order: 2;
+    }
+
+    .nav-dots a:hover,
+    .nav-dots a.active {
+      transform: scale(1.2);
+      background: rgba(255, 191, 210, 0.85);
+      box-shadow: 0 0 12px rgba(255, 191, 210, 0.45);
+    }
+
+    .nav-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.74);
+      transition: color .2s ease, transform .2s ease;
+      white-space: nowrap;
+    }
+
+    .nav-dots li:hover .nav-label,
+    .nav-dots a.active + .nav-label {
+      color: rgba(255,255,255,0.96);
+      transform: translateX(-3px);
+    }
+
+    .page-header {
+      padding: 110px 90px 30px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .eyebrow {
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .page-header h1 {
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      line-height: 0.95;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .page-header p {
+      max-width: 760px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+
+    .game-wrap {
+      padding: 10px 110px 160px;
+      position: relative;
+      z-index: 2;
+      display: grid;
+      gap: 46px;
+    }
+
+    .game-section {
+      position: relative;
+    }
+
+    .game-card {
+      position: relative;
+      min-height: 72vh;
+      border-radius: 34px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+      box-shadow: 0 26px 60px rgba(0,0,0,0.18);
+      transition: transform .28s ease, border-color .28s ease;
+    }
+
+    .game-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(255,255,255,0.26);
+    }
+
+    .game-front,
+    .game-back {
+      position: absolute;
+      inset: 0;
+      transition: transform .75s ease, opacity .45s ease;
+      backface-visibility: hidden;
+    }
+
+    .game-front {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      align-items: stretch;
+    }
+
+    .game-back {
+      transform: rotateY(180deg);
+      opacity: 0;
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      padding: 28px;
+      gap: 22px;
+      background: rgba(25, 26, 48, 0.94);
+    }
+
+    .game-card.is-open .game-front {
+      transform: rotateY(180deg);
+      opacity: 0;
+    }
+
+    .game-card.is-open .game-back {
+      transform: rotateY(0deg);
+      opacity: 1;
+    }
+
+    .game-visual {
+      position: relative;
+      min-height: 100%;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .game-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.3));
+    }
+
+    .game-visual.one { background-image: linear-gradient(135deg, rgba(120,92,255,0.40), rgba(217,239,78,0.22)), url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1400&q=80'); }
+    .game-visual.two { background-image: linear-gradient(135deg, rgba(255,90,150,0.30), rgba(80,110,255,0.30)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1400&q=80'); }
+    .game-visual.three { background-image: linear-gradient(135deg, rgba(90,255,210,0.24), rgba(100,70,255,0.34)), url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1400&q=80'); }
+
+    .game-copy {
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .tag {
+      display: inline-flex;
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(217,239,78,0.14);
+      border: 1px solid rgba(217,239,78,0.28);
+      color: #eff9a3;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .game-copy h2,
+    .back-copy h2 {
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .game-copy p,
+    .back-copy p,
+    .back-panel p {
+      color: rgba(255,255,255,0.78);
+      line-height: 1.8;
+      font-size: 0.98rem;
+    }
+
+    .flip-hint {
+      margin-top: 12px;
+      font-size: 0.74rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.64);
+    }
+
+    .back-copy {
+      display: grid;
+      align-content: start;
+      gap: 14px;
+    }
+
+    .back-grid {
+      display: grid;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .back-panel {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .back-panel strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .back-shot {
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.05);
+      display: grid;
+      grid-template-rows: 320px 1fr;
+    }
+
+    .back-shot-image {
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .back-shot-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.28));
+    }
+
+    .back-shot.one { background-image: linear-gradient(135deg, rgba(120,92,255,0.40), rgba(217,239,78,0.22)), url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1400&q=80'); }
+    .back-shot.two { background-image: linear-gradient(135deg, rgba(255,90,150,0.30), rgba(80,110,255,0.30)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1400&q=80'); }
+    .back-shot.three { background-image: linear-gradient(135deg, rgba(90,255,210,0.24), rgba(100,70,255,0.34)), url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1400&q=80'); }
+
+    .back-shot-copy {
+      padding: 18px;
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .back-shot-copy h3 {
+      font-size: 0.9rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .side-path {
+      position: absolute;
+      left: -96px;
+      top: 0;
+      bottom: -42px;
+      width: 150px;
+      pointer-events: auto;
+      z-index: 7;
+    }
+
+    .side-path.right {
+      left: auto;
+      right: -96px;
+    }
+
+    .side-path svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+      position: absolute;
+      inset: 0;
+    }
+
+    .side-path .path-glow {
+      fill: none;
+      stroke: var(--path-glow);
+      stroke-width: 16;
+      stroke-linecap: round;
+    }
+
+    .side-path .path-main {
+      fill: none;
+      stroke: var(--path-main);
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-dasharray: 1 14;
+    }
+
+    .side-path .path-progress {
+      fill: none;
+      stroke: var(--path-progress);
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-dasharray: 0 9999;
+      filter: drop-shadow(0 0 10px rgba(217,239,78,0.45));
+    }
+
+    .alien-runner {
+      position: absolute;
+      width: 42px;
+      height: 42px;
+      transform: translate(-50%, -50%);
+      image-rendering: pixelated;
+      z-index: 8;
+      cursor: pointer;
+      pointer-events: auto;
+      transition: transform .16s ease;
+    }
+
+    .alien-runner:hover {
+      transform: translate(-50%, -50%) scale(1.14);
+    }
+
+    .alien-runner:focus-visible {
+      outline: 2px solid rgba(217,239,78,0.95);
+      outline-offset: 6px;
+      border-radius: 8px;
+    }
+
+    .alien-runner .pixel {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: var(--pixel-green);
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.06);
+    }
+
+    .alien-runner .eye {
+      background: #1b213f;
+    }
+
+    .alien-runner .accent {
+      background: var(--pixel-cyan);
+    }
+
+    .path-note {
+      position: absolute;
+      left: 50%;
+      top: -18px;
+      transform: translateX(-50%);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.88);
+      white-space: nowrap;
+      background: rgba(20,22,44,0.78);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 8px 11px;
+      border-radius: 999px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.14);
+      pointer-events: none;
+    }
+
+    @media (max-width: 1100px) {
+      .game-front,
+      .game-back {
+        grid-template-columns: 1fr;
+      }
+
+      .game-visual {
+        min-height: 320px;
+      }
+
+      .back-shot {
+        grid-template-rows: 260px 1fr;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .side-path,
+      .side-path.right {
+        left: 50%;
+        right: auto;
+        top: auto;
+        bottom: -154px;
+        width: 300px;
+        height: 150px;
+        transform: translateX(-50%);
+      }
+
+      .path-note {
+        top: auto;
+        bottom: -56px;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .page-header,
+      .game-wrap {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+
+      .side-nav {
+        right: 16px;
+      }
+
+      .nav-label {
+        font-size: 0.6rem;
+        letter-spacing: 0.12em;
+      }
+
+      .info-panel {
+        width: min(82vw, 420px);
+      }
+
+      .game-card {
+        min-height: 82vh;
+      }
+
+      .back-shot {
+        grid-template-rows: 220px 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="pixel-bg" aria-hidden="true">
+      <div class="stars"></div>
+      <div class="sun-pixel"></div>
+      <div class="arcade-grid"></div>
+      <div class="floating-block"></div>
+      <div class="floating-block-2"></div>
+      <div class="floating-block-3"></div>
+      <div class="floating-block-4"></div>
+      <div class="arcade-orb orb-1"></div>
+      <div class="arcade-orb orb-2"></div>
+      <div class="hill"></div>
+      <div class="hill-2"></div>
+      <div class="hill-3"></div>
+      <div class="grid-city"></div>
+      <div class="palm"></div>
+      <div class="palm-2"></div>
+      <div class="ground"></div>
+    </div>
+
+    <div class="hover-zone" aria-hidden="true"></div>
+
+    <aside class="info-panel">
+      <h2>Game Page</h2>
+      <p>
+        This page is built like a fun animated game showcase. Each section is big and almost full page so you can feature one game at a time.
+      </p>
+      <p>
+        The alien is now easier to see and click, the path stays visible, and the path lights up as the alien moves to the next game.
+      </p>
+      <div class="info-grid">
+        <div class="info-card">
+          <h3>Layout</h3>
+          <span>Large feature sections for each game instead of a dense grid.</span>
+        </div>
+        <div class="info-card">
+          <h3>Interaction</h3>
+          <span>The alien acts like the guide between sections and opens each game card.</span>
+        </div>
+        <div class="info-card">
+          <h3>Style</h3>
+          <span>Pixel landscape, futuristic arcade mood, playful animated motion.</span>
+        </div>
+      </div>
+    </aside>
+
+    <nav class="side-nav">
+      <a class="start-link" href="index.html">START <span class="dot"></span></a>
+      <ul class="nav-dots">
+        <li>
+          <a href="index.html" title="Home"></a>
+          <span class="nav-label">Home</span>
+        </li>
+        <li>
+          <a href="somefun.html" class="active" title="Game"></a>
+          <span class="nav-label">Game</span>
+        </li>
+        <li>
+          <a href="projects.html" title="Projects"></a>
+          <span class="nav-label">Projects</span>
+        </li>
+        <li>
+          <a href="about.html" title="About"></a>
+          <span class="nav-label">About</span>
+        </li>
+      </ul>
+    </nav>
+
+    <header class="page-header">
+      <div class="eyebrow">Playable Worlds • Weird Systems • Interactive Stuff</div>
+      <h1>Game</h1>
+      <p>
+        Big feature cards, side-path alien travel, and a more arcade-pixel background. Click the little alien guide on the side path and it will travel to the next section, reveal the path, flip open the next game, and move the page with it.
+      </p>
+    </header>
+
+    <main class="game-wrap">
+      <section class="game-section">
+        <section class="game-card is-open" id="game-1">
+          <div class="game-front">
+            <div class="game-visual one"></div>
+            <div class="game-copy">
+              <span class="tag">Game One</span>
+              <h2>Featured Game Title</h2>
+              <p>Use this first section for your main game. This front side is the big simple hero version with the title, short pitch, and image.</p>
+              <div class="flip-hint">Opened by the alien guide</div>
+            </div>
+          </div>
+          <div class="game-back">
+            <div class="back-copy">
+              <span class="tag">Expanded View</span>
+              <h2>Featured Game Title</h2>
+              <p>Add more detailed project info here. This can be your genre, core mechanic, inspiration, dev notes, or a short design story.</p>
+              <div class="back-grid">
+                <div class="back-panel">
+                  <strong>Core idea</strong>
+                  <p>Fill this in with the main concept of the game.</p>
+                </div>
+                <div class="back-panel">
+                  <strong>What you made</strong>
+                  <p>Fill this in with your role, systems, art, code, multiplayer work, or level design.</p>
+                </div>
+                <div class="back-panel">
+                  <strong>Extra notes</strong>
+                  <p>Use this area for process notes, devlog details, challenges, or future goals.</p>
+                </div>
+              </div>
+            </div>
+            <div class="back-shot">
+              <div class="back-shot-image back-shot one"></div>
+              <div class="back-shot-copy">
+                <h3>Visual area</h3>
+                <p>Put another screenshot, trailer still, map, UI image, or feature breakdown here later.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="side-path right connector" data-to="game-2">
+          <svg viewBox="0 0 100 420" preserveAspectRatio="none">
+            <path class="path-glow" d="M 48 18 C 70 70, 28 130, 56 188 S 74 290, 46 402"></path>
+            <path class="path-main" d="M 48 18 C 70 70, 28 130, 56 188 S 74 290, 46 402"></path>
+            <path class="path-progress" d="M 48 18 C 70 70, 28 130, 56 188 S 74 290, 46 402"></path>
+          </svg>
+          <div class="alien-runner" tabindex="0" role="button" aria-label="Move alien to next game">
+            <span class="pixel" style="left:12px;top:0px"></span>
+            <span class="pixel" style="left:18px;top:0px"></span>
+            <span class="pixel" style="left:24px;top:0px"></span>
+            <span class="pixel" style="left:6px;top:6px"></span>
+            <span class="pixel" style="left:12px;top:6px"></span>
+            <span class="pixel" style="left:18px;top:6px"></span>
+            <span class="pixel" style="left:24px;top:6px"></span>
+            <span class="pixel" style="left:30px;top:6px"></span>
+            <span class="pixel eye" style="left:12px;top:12px"></span>
+            <span class="pixel accent" style="left:18px;top:12px"></span>
+            <span class="pixel eye" style="left:24px;top:12px"></span>
+            <span class="pixel" style="left:6px;top:18px"></span>
+            <span class="pixel" style="left:12px;top:18px"></span>
+            <span class="pixel" style="left:18px;top:18px"></span>
+            <span class="pixel" style="left:24px;top:18px"></span>
+            <span class="pixel" style="left:30px;top:18px"></span>
+            <span class="pixel" style="left:12px;top:24px"></span>
+            <span class="pixel" style="left:18px;top:24px"></span>
+            <span class="pixel" style="left:24px;top:24px"></span>
+            <span class="pixel" style="left:6px;top:30px"></span>
+            <span class="pixel" style="left:30px;top:30px"></span>
+          </div>
+          <div class="path-note">Click the alien guide</div>
+        </div>
+      </section>
+
+      <section class="game-section">
+        <section class="game-card" id="game-2">
+          <div class="game-front">
+            <div class="game-visual two"></div>
+            <div class="game-copy">
+              <span class="tag">Game Two</span>
+              <h2>Second Game Title</h2>
+              <p>Use this section for another game, prototype, or interactive experiment you want to feature in a big way.</p>
+              <div class="flip-hint">Opened by the alien guide</div>
+            </div>
+          </div>
+          <div class="game-back">
+            <div class="back-copy">
+              <span class="tag">Expanded View</span>
+              <h2>Second Game Title</h2>
+              <p>Add more detailed project info here. This can be your genre, core mechanic, inspiration, dev notes, or a short design story.</p>
+              <div class="back-grid">
+                <div class="back-panel">
+                  <strong>Core idea</strong>
+                  <p>Fill this in with the main concept of the game.</p>
+                </div>
+                <div class="back-panel">
+                  <strong>What you made</strong>
+                  <p>Fill this in with your role, systems, art, code, multiplayer work, or level design.</p>
+                </div>
+                <div class="back-panel">
+                  <strong>Extra notes</strong>
+                  <p>Use this area for process notes, devlog details, challenges, or future goals.</p>
+                </div>
+              </div>
+            </div>
+            <div class="back-shot">
+              <div class="back-shot-image back-shot two"></div>
+              <div class="back-shot-copy">
+                <h3>Visual area</h3>
+                <p>Put another screenshot, trailer still, map, UI image, or feature breakdown here later.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="side-path connector" data-to="game-3">
+          <svg viewBox="0 0 100 420" preserveAspectRatio="none">
+            <path class="path-glow" d="M 52 18 C 30 82, 72 138, 44 202 S 24 298, 54 404"></path>
+            <path class="path-main" d="M 52 18 C 30 82, 72 138, 44 202 S 24 298, 54 404"></path>
+            <path class="path-progress" d="M 52 18 C 30 82, 72 138, 44 202 S 24 298, 54 404"></path>
+          </svg>
+          <div class="alien-runner" tabindex="0" role="button" aria-label="Move alien to next game">
+            <span class="pixel" style="left:12px;top:0px"></span>
+            <span class="pixel" style="left:18px;top:0px"></span>
+            <span class="pixel" style="left:24px;top:0px"></span>
+            <span class="pixel" style="left:6px;top:6px"></span>
+            <span class="pixel" style="left:12px;top:6px"></span>
+            <span class="pixel" style="left:18px;top:6px"></span>
+            <span class="pixel" style="left:24px;top:6px"></span>
+            <span class="pixel" style="left:30px;top:6px"></span>
+            <span class="pixel eye" style="left:12px;top:12px"></span>
+            <span class="pixel accent" style="left:18px;top:12px"></span>
+            <span class="pixel eye" style="left:24px;top:12px"></span>
+            <span class="pixel" style="left:6px;top:18px"></span>
+            <span class="pixel" style="left:12px;top:18px"></span>
+            <span class="pixel" style="left:18px;top:18px"></span>
+            <span class="pixel" style="left:24px;top:18px"></span>
+            <span class="pixel" style="left:30px;top:18px"></span>
+            <span class="pixel" style="left:12px;top:24px"></span>
+            <span class="pixel" style="left:18px;top:24px"></span>
+            <span class="pixel" style="left:24px;top:24px"></span>
+            <span class="pixel" style="left:6px;top:30px"></span>
+            <span class="pixel" style="left:30px;top:30px"></span>
+          </div>
+          <div class="path-note">Click the alien guide</div>
+        </div>
+      </section>
+
+      <section class="game-section">
+        <section class="game-card" id="game-3">
+          <div class="game-front">
+            <div class="game-visual three"></div>
+            <div class="game-copy">
+              <span class="tag">Game Three</span>
+              <h2>Third Game Title</h2>
+              <p>Use this third section for one more game, concept, prototype, or stylish playable world.</p>
+              <div class="flip-hint">Opened by the alien guide</div>
+            </div>
+          </div>
+          <div class="game-back">
+            <div class="back-copy">
+              <span class="tag">Expanded View</span>
+              <h2>Third Game Title</h2>
+              <p>Add more detailed project info here. This can be your genre, core mechanic, inspiration, dev notes, or a short design story.</p>
+              <div class="back-grid">
+                <div class="back-panel">
+                  <strong>Core idea</strong>
+                  <p>Fill this in with the main concept of the game.</p>
+                </div>
+                <div class="back-panel">
+                  <strong>What you made</strong>
+                  <p>Fill this in with your role, systems, art, code, multiplayer work, or level design.</p>
+                </div>
+                <div class="back-panel">
+                  <strong>Extra notes</strong>
+                  <p>Use this area for process notes, devlog details, challenges, or future goals.</p>
+                </div>
+              </div>
+            </div>
+            <div class="back-shot">
+              <div class="back-shot-image back-shot three"></div>
+              <div class="back-shot-copy">
+                <h3>Visual area</h3>
+                <p>Put another screenshot, trailer still, map, UI image, or feature breakdown here later.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const gameCards = Array.from(document.querySelectorAll('.game-card'));
+    const connectors = Array.from(document.querySelectorAll('.connector'));
+
+    function closeAllCards() {
+      gameCards.forEach((card) => card.classList.remove('is-open'));
+    }
+
+    function openCardById(id) {
+      closeAllCards();
+      const card = document.getElementById(id);
+      if (!card) return;
+      card.classList.add('is-open');
+      setTimeout(() => {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 180);
+    }
+
+    function pointOnPath(path, progress) {
+      const length = path.getTotalLength();
+      return path.getPointAtLength(length * progress);
+    }
+
+    function getMainPath(connector) {
+      return connector.querySelector('.path-main');
+    }
+
+    function getProgressPath(connector) {
+      return connector.querySelector('.path-progress');
+    }
+
+    function placeAlien(connector, progress) {
+      const path = getMainPath(connector);
+      const progressPath = getProgressPath(connector);
+      const alien = connector.querySelector('.alien-runner');
+      const svg = connector.querySelector('svg');
+      const pt = pointOnPath(path, progress);
+      const vb = svg.viewBox.baseVal;
+      const totalLength = path.getTotalLength();
+      const shown = totalLength * progress;
+      const remaining = Math.max(totalLength - shown, 0);
+
+      alien.style.left = `${(pt.x / vb.width) * connector.clientWidth}px`;
+      alien.style.top = `${(pt.y / vb.height) * connector.clientHeight}px`;
+      progressPath.style.strokeDasharray = `${shown} ${remaining + 20}`;
+    }
+
+    function animateAlien(connector, onDone) {
+      const alien = connector.querySelector('.alien-runner');
+      const path = getMainPath(connector);
+      const progressPath = getProgressPath(connector);
+      const svg = connector.querySelector('svg');
+      const vb = svg.viewBox.baseVal;
+      const totalLength = path.getTotalLength();
+      const duration = 1700;
+      const start = performance.now();
+
+      progressPath.style.strokeDasharray = `0 ${totalLength + 20}`;
+
+      function step(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const pt = pointOnPath(path, progress);
+        const shown = totalLength * progress;
+        const remaining = Math.max(totalLength - shown, 0);
+
+        alien.style.left = `${(pt.x / vb.width) * connector.clientWidth}px`;
+        alien.style.top = `${(pt.y / vb.height) * connector.clientHeight}px`;
+        progressPath.style.strokeDasharray = `${shown} ${remaining + 20}`;
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else if (onDone) {
+          onDone();
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    connectors.forEach((connector) => {
+      placeAlien(connector, 0);
+      const alien = connector.querySelector('.alien-runner');
+      const targetId = connector.dataset.to;
+
+      const runToNext = () => {
+        animateAlien(connector, () => openCardById(targetId));
+      };
+
+      alien.addEventListener('click', runToNext);
+      alien.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          runToNext();
+        }
+      });
+    });
+
+    window.addEventListener('resize', () => {
+      connectors.forEach((connector) => placeAlien(connector, 0));
+    });
+  </script>
+</body>
+</html>
