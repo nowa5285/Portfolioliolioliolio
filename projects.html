@@ -214,11 +214,28 @@
       border-top-right-radius: 34px;
       border-bottom-right-radius: 34px;
       box-shadow: 20px 0 40px rgba(0,0,0,0.22);
+      animation: sidebarPeek 4.4s ease-in-out infinite;
     }
 
     .hover-zone:hover + .info-panel,
     .info-panel:hover {
       transform: translateX(0);
+      animation: none;
+    }
+
+    @keyframes sidebarPeek {
+      0%, 82%, 100% {
+        transform: translateX(-100%);
+      }
+      87% {
+        transform: translateX(calc(-100% + 12px));
+      }
+      91% {
+        transform: translateX(calc(-100% + 22px));
+      }
+      95% {
+        transform: translateX(calc(-100% + 10px));
+      }
     }
 
     .info-panel h2 {
@@ -286,7 +303,7 @@
       align-items: center;
       gap: 10px;
       opacity: 0.9;
-      transition: opacity .2s ease, transform .2s ease;
+      transition: opacity .2s ease, transform .2s ease, color .2s ease;
     }
 
     .start-link:hover {
@@ -300,6 +317,23 @@
       border-radius: 50%;
       border: 1px solid rgba(255,255,255,0.5);
       display: inline-block;
+      transition: background .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .music-toggle {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .music-toggle.is-playing {
+      color: #ffffff;
+    }
+
+    .music-toggle.is-playing .dot {
+      background: #62ff8f;
+      border-color: #62ff8f;
+      box-shadow: 0 0 12px rgba(98,255,143,0.75);
     }
 
     .nav-dots {
@@ -418,7 +452,7 @@
 
     .project-card-shell.is-flipped .project-flip {
       transform: rotateY(180deg);
-      min-height: 640px;
+      min-height: 700px;
     }
 
     .card-face {
@@ -459,6 +493,23 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.24));
+    }
+
+    .image-file-label {
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      z-index: 2;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(13, 16, 34, 0.78);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.92);
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      backdrop-filter: blur(8px);
     }
 
     .img-1 { background-image: linear-gradient(135deg, rgba(120,92,255,0.45), rgba(217,239,78,0.28)), url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80'); }
@@ -641,7 +692,7 @@
       }
 
       .project-card-shell.is-flipped .project-flip {
-        min-height: 860px;
+        min-height: 980px;
       }
 
       .side-nav {
@@ -682,29 +733,31 @@
     <aside class="info-panel">
       <h2>Projects</h2>
       <p>
-        This page uses a cleaner layout with separate project cards. Each card flips when clicked so you can keep the front simple and put more detail on the back.
+        This page brings together a mix of game development, UX, web, and interactive system work. It shows the range of projects I like building, from multiplayer game ideas and design case studies to full-stack web tools and physical interactive builds.
       </p>
       <p>
-        Now the flipped card gets much bigger and can take over extra space in the row so you have room for more images, text, process notes, and links.
+        A lot of my work sits between creative direction and technical implementation. I like projects where I can design the experience, solve the system problems, and turn the idea into something real and usable.
       </p>
       <div class="info-grid">
         <div class="info-card">
-          <h3>Layout</h3>
-          <span>3 cards across, then another 3 when you scroll down.</span>
+          <h3>What is here</h3>
+          <span>Games, UX case studies, web development, creative coding, interactive systems, and physical prototypes.</span>
         </div>
         <div class="info-card">
-          <h3>Interaction</h3>
-          <span>Click a card to flip it and reveal a much larger project view.</span>
+          <h3>How it works</h3>
+          <span>Each card flips open for a larger view with more detail, tools, roles, and project notes.</span>
         </div>
         <div class="info-card">
-          <h3>Style</h3>
-          <span>Exploration mood, light motion, paper airplane loops, simple background.</span>
+          <h3>What it shows</h3>
+          <span>My range across design, development, systems thinking, prototyping, and building projects from concept to execution.</span>
         </div>
       </div>
     </aside>
 
     <nav class="side-nav">
-      <a class="start-link" href="index.html">START <span class="dot"></span></a>
+      <button class="start-link music-toggle" id="musicToggle" type="button" aria-label="Toggle music">
+        START MUSIC <span class="dot"></span>
+      </button>
       <ul class="nav-dots">
         <li>
           <a href="index.html" title="Home"></a>
@@ -729,7 +782,7 @@
       <div class="eyebrow">Selected Work • Build Log • Portfolio</div>
       <h1>Projects</h1>
       <p>
-        Click any card to flip it. The front gives a quick overview, and the back gives you space for more detail, links, process notes, tech, outcomes, and extra images.
+        Click any card to flip it. The front gives a quick overview, and the back gives more space for the project story, tools, goals, and what I contributed. You can swap in your final images later.
       </p>
     </header>
 
@@ -738,32 +791,35 @@
         <article class="project-card-shell">
           <div class="project-flip">
             <div class="card-face card-front">
-              <div class="card-image img-1"></div>
+              <div class="card-image img-1">
+                <div class="image-file-label">welcome-to-suburbia.jpg</div>
+              </div>
               <div class="card-content">
-                <span class="tag">Featured</span>
-                <h3>Project Title One</h3>
-                <p>Short one-paragraph overview of the project and what makes it interesting.</p>
+                <span class="tag">Featured Game</span>
+                <h3>Welcome to Suburbia</h3>
+                <p>A multiplayer horror-comedy project set in an endless suburban neighborhood where normal life slowly turns into cult-like chaos and demonic weirdness.</p>
                 <div class="flip-hint">Click to expand + flip</div>
               </div>
             </div>
             <div class="card-face card-back">
               <div class="back-meta">
-                <h3>Project Title One</h3>
-                <p>Add longer info here about your goal, process, and what the final project does. This bigger flipped layout gives you room for screenshots, process notes, feature callouts, links, and a stronger story.</p>
-                <div class="meta-line"><strong>Role:</strong> Fill this in</div>
-                <div class="meta-line"><strong>Tools:</strong> Fill this in</div>
-                <div class="meta-line wide-note"><strong>Notes:</strong> Add extra details, milestones, challenges, outcomes, and anything else you want people to understand about the project.</div>
+                <h3>Welcome to Suburbia</h3>
+                <p>
+                  Welcome to Suburbia is one of my main game projects and a strong example of the kind of work I want to keep building. The game mixes multiplayer interaction, procedural neighborhood ideas, humor, horror, and environmental storytelling into a strange world that feels playful and unsettling at the same time.
+                </p>
+                <div class="meta-line"><strong>Role:</strong> Game developer, system designer, worldbuilder, and creative direction.</div>
+                <div class="meta-line"><strong>Tools:</strong> Godot, multiplayer systems, gameplay scripting, procedural ideas, 3D workflows.</div>
+                <div class="meta-line wide-note"><strong>Notes:</strong> This project reflects a lot of my interests in games: atmosphere, weird systems, player discovery, multiplayer interaction, and taking a familiar setting like suburbia and turning it into something increasingly wrong and memorable.</div>
                 <div class="back-actions">
-                  <a class="mini-btn" href="#">Project Link</a>
-                  <a class="mini-btn" href="#">GitHub</a>
+                  <a class="mini-btn" href="https://welcometosuburbia.com/" target="_blank" rel="noopener noreferrer">Visit Project</a>
                 </div>
               </div>
               <div class="back-visual">
                 <div class="back-visual-image img-1"></div>
                 <div class="back-visual-copy">
-                  <h4>Extra space for visuals</h4>
-                  <p>Use this side for another screenshot, diagram, game still, fabrication photo, UI mockup, or progress image.</p>
-                  <p>You can also swap this for a gallery, video preview, or short feature list later.</p>
+                  <h4>Visual area</h4>
+                  <p>Use this area for a gameplay screenshot, neighborhood environment shot, system breakdown, or multiplayer moment from Welcome to Suburbia.</p>
+                  <p>This is a good place for one of your strongest images from the project.</p>
                 </div>
               </div>
             </div>
@@ -773,32 +829,35 @@
         <article class="project-card-shell">
           <div class="project-flip">
             <div class="card-face card-front">
-              <div class="card-image img-2"></div>
+              <div class="card-image img-2">
+                <div class="image-file-label">cheyenne-case-study.jpg</div>
+              </div>
               <div class="card-content">
-                <span class="tag">Interactive</span>
-                <h3>Project Title Two</h3>
-                <p>Short one-paragraph overview of the project and what makes it interesting.</p>
+                <span class="tag">UX Case Study</span>
+                <h3>Cheyenne Mountain Zoo Redesign</h3>
+                <p>A UX/UI case study focused on redesigning the Cheyenne Mountain Zoo digital experience with a cleaner visual system and improved ticketing flow.</p>
                 <div class="flip-hint">Click to expand + flip</div>
               </div>
             </div>
             <div class="card-face card-back">
               <div class="back-meta">
-                <h3>Project Title Two</h3>
-                <p>Add longer info here about your goal, process, and what the final project does. This bigger flipped layout gives you room for screenshots, process notes, feature callouts, links, and a stronger story.</p>
-                <div class="meta-line"><strong>Role:</strong> Fill this in</div>
-                <div class="meta-line"><strong>Tools:</strong> Fill this in</div>
-                <div class="meta-line wide-note"><strong>Notes:</strong> Add extra details, milestones, challenges, outcomes, and anything else you want people to understand about the project.</div>
+                <h3>Cheyenne Mountain Zoo Redesign</h3>
+                <p>
+                  This project is a UX case study centered on improving the zoo’s digital experience. The work focused on usability, structure, visual design, and a more polished ticket-purchase flow while keeping the site easier to understand and navigate.
+                </p>
+                <div class="meta-line"><strong>Role:</strong> UX designer, UI designer, researcher, and case study builder.</div>
+                <div class="meta-line"><strong>Tools:</strong> Figma, wireframing, visual design, prototype work, usability thinking.</div>
+                <div class="meta-line wide-note"><strong>Notes:</strong> The project involved identifying pain points in the existing experience, improving navigation and clarity, and creating a cleaner, more intentional interface with a stronger sense of brand and usability.</div>
                 <div class="back-actions">
-                  <a class="mini-btn" href="#">Project Link</a>
-                  <a class="mini-btn" href="#">GitHub</a>
+                  <a class="mini-btn" href="projects.html">View Project</a>
                 </div>
               </div>
               <div class="back-visual">
                 <div class="back-visual-image img-2"></div>
                 <div class="back-visual-copy">
-                  <h4>Extra space for visuals</h4>
-                  <p>Use this side for another screenshot, diagram, game still, fabrication photo, UI mockup, or progress image.</p>
-                  <p>You can also swap this for a gallery, video preview, or short feature list later.</p>
+                  <h4>Visual area</h4>
+                  <p>Use this side for your homepage redesign, ticket flow screens, wireframes, or case study visuals.</p>
+                  <p>This would be a strong place for one polished mockup or a before/after image.</p>
                 </div>
               </div>
             </div>
@@ -808,32 +867,35 @@
         <article class="project-card-shell">
           <div class="project-flip">
             <div class="card-face card-front">
-              <div class="card-image img-3"></div>
+              <div class="card-image img-3">
+                <div class="image-file-label">learnmaster.jpg</div>
+              </div>
               <div class="card-content">
-                <span class="tag">Design</span>
-                <h3>Project Title Three</h3>
-                <p>Short one-paragraph overview of the project and what makes it interesting.</p>
+                <span class="tag">Web App</span>
+                <h3>LearnMaster</h3>
+                <p>A Quizlet-style study platform built for creating, managing, and reviewing custom study sets, flashcards, and quizzes.</p>
                 <div class="flip-hint">Click to expand + flip</div>
               </div>
             </div>
             <div class="card-face card-back">
               <div class="back-meta">
-                <h3>Project Title Three</h3>
-                <p>Add longer info here about your goal, process, and what the final project does. This bigger flipped layout gives you room for screenshots, process notes, feature callouts, links, and a stronger story.</p>
-                <div class="meta-line"><strong>Role:</strong> Fill this in</div>
-                <div class="meta-line"><strong>Tools:</strong> Fill this in</div>
-                <div class="meta-line wide-note"><strong>Notes:</strong> Add extra details, milestones, challenges, outcomes, and anything else you want people to understand about the project.</div>
+                <h3>LearnMaster</h3>
+                <p>
+                  LearnMaster is a collaborative web application designed to make studying more organized and flexible. It gives users tools to build their own study sets, review flashcards, and take quizzes in a more customized learning environment.
+                </p>
+                <div class="meta-line"><strong>Role:</strong> Contributor on full-stack web development and project implementation with Colin O'Connor, Kyle Okura, Adarsh Charugundla, and Matthew Egyed.</div>
+                <div class="meta-line"><strong>Tools:</strong> HTML, CSS, JavaScript, Node.js, Express.js, PostgreSQL, Handlebars, bcrypt, sessions, Docker.</div>
+                <div class="meta-line wide-note"><strong>Notes:</strong> This project shows my experience with collaborative web development, authentication, backend systems, database work, and building a practical user-focused application from concept to deployment.</div>
                 <div class="back-actions">
-                  <a class="mini-btn" href="#">Project Link</a>
-                  <a class="mini-btn" href="#">GitHub</a>
+                  <a class="mini-btn" href="http://recitation-15-team-06.eastus.cloudapp.azure.com:3000/study/2" target="_blank" rel="noopener noreferrer">View Project</a>
                 </div>
               </div>
               <div class="back-visual">
                 <div class="back-visual-image img-3"></div>
                 <div class="back-visual-copy">
-                  <h4>Extra space for visuals</h4>
-                  <p>Use this side for another screenshot, diagram, game still, fabrication photo, UI mockup, or progress image.</p>
-                  <p>You can also swap this for a gallery, video preview, or short feature list later.</p>
+                  <h4>Visual area</h4>
+                  <p>Use this side for dashboard screens, flashcard views, quiz pages, or any interface shot from LearnMaster.</p>
+                  <p>You could also add a screenshot of the study flow or homepage here.</p>
                 </div>
               </div>
             </div>
@@ -847,32 +909,35 @@
         <article class="project-card-shell">
           <div class="project-flip">
             <div class="card-face card-front">
-              <div class="card-image img-4"></div>
+              <div class="card-image img-4">
+                <div class="image-file-label">matrix-room-counter.jpg</div>
+              </div>
               <div class="card-content">
-                <span class="tag">Code</span>
-                <h3>Project Title Four</h3>
-                <p>Short one-paragraph overview of the project and what makes it interesting.</p>
+                <span class="tag">Interactive Build</span>
+                <h3>RGB Matrix Room Counter</h3>
+                <p>An interactive physical build using sensors, display programming, and enclosure design to count people in a room and visualize that information live.</p>
                 <div class="flip-hint">Click to expand + flip</div>
               </div>
             </div>
             <div class="card-face card-back">
               <div class="back-meta">
-                <h3>Project Title Four</h3>
-                <p>Add longer info here about your goal, process, and what the final project does. This bigger flipped layout gives you room for screenshots, process notes, feature callouts, links, and a stronger story.</p>
-                <div class="meta-line"><strong>Role:</strong> Fill this in</div>
-                <div class="meta-line"><strong>Tools:</strong> Fill this in</div>
-                <div class="meta-line wide-note"><strong>Notes:</strong> Add extra details, milestones, challenges, outcomes, and anything else you want people to understand about the project.</div>
+                <h3>RGB Matrix Room Counter</h3>
+                <p>
+                  This project combines physical computing, display output, enclosure thinking, and interaction design. The goal was to create a system that could sense room presence and communicate that count in a clear, engaging way through an RGB matrix.
+                </p>
+                <div class="meta-line"><strong>Role:</strong> Interactive systems builder, prototyper, and enclosure designer.</div>
+                <div class="meta-line"><strong>Tools:</strong> Arduino-style prototyping, sensors, matrix display work, enclosure design, fabrication.</div>
+                <div class="meta-line wide-note"><strong>Notes:</strong> This project reflects my interest in connecting code, electronics, fabrication, and visual output into one cohesive build. It shows how I approach both technical functionality and the physical presentation of a project.</div>
                 <div class="back-actions">
-                  <a class="mini-btn" href="#">Project Link</a>
-                  <a class="mini-btn" href="#">GitHub</a>
+                  <a class="mini-btn" href="projects.html">View Project</a>
                 </div>
               </div>
               <div class="back-visual">
                 <div class="back-visual-image img-4"></div>
                 <div class="back-visual-copy">
-                  <h4>Extra space for visuals</h4>
-                  <p>Use this side for another screenshot, diagram, game still, fabrication photo, UI mockup, or progress image.</p>
-                  <p>You can also swap this for a gallery, video preview, or short feature list later.</p>
+                  <h4>Visual area</h4>
+                  <p>Use this side for the matrix display, enclosure process, wiring, or final setup photos.</p>
+                  <p>This would also be a great place for a prototype-to-final comparison image.</p>
                 </div>
               </div>
             </div>
@@ -882,32 +947,35 @@
         <article class="project-card-shell">
           <div class="project-flip">
             <div class="card-face card-front">
-              <div class="card-image img-5"></div>
+              <div class="card-image img-5">
+                <div class="image-file-label">wizza.jpg</div>
+              </div>
               <div class="card-content">
-                <span class="tag">Physical Build</span>
-                <h3>Project Title Five</h3>
-                <p>Short one-paragraph overview of the project and what makes it interesting.</p>
+                <span class="tag">Game Prototype</span>
+                <h3>Wizza</h3>
+                <p>A 3D platform shooter concept that mixes movement, action, and stylized game feel into a fast, playful prototype.</p>
                 <div class="flip-hint">Click to expand + flip</div>
               </div>
             </div>
             <div class="card-face card-back">
               <div class="back-meta">
-                <h3>Project Title Five</h3>
-                <p>Add longer info here about your goal, process, and what the final project does. This bigger flipped layout gives you room for screenshots, process notes, feature callouts, links, and a stronger story.</p>
-                <div class="meta-line"><strong>Role:</strong> Fill this in</div>
-                <div class="meta-line"><strong>Tools:</strong> Fill this in</div>
-                <div class="meta-line wide-note"><strong>Notes:</strong> Add extra details, milestones, challenges, outcomes, and anything else you want people to understand about the project.</div>
+                <h3>Wizza</h3>
+                <p>
+                  Wizza is a 3D platform shooter project built around movement, playful combat, and a more action-focused game feel. It fits into the side of my work that explores game mechanics, player control, and the overall rhythm of a playable system.
+                </p>
+                <div class="meta-line"><strong>Role:</strong> Game developer, gameplay designer, and systems builder.</div>
+                <div class="meta-line"><strong>Tools:</strong> Game engine workflows, gameplay scripting, 3D design thinking, prototype iteration.</div>
+                <div class="meta-line wide-note"><strong>Notes:</strong> This project is a good example of my interest in building mechanics-forward interactive work and exploring the relationship between movement, shooting, player feel, and visual identity in a game prototype.</div>
                 <div class="back-actions">
-                  <a class="mini-btn" href="#">Project Link</a>
-                  <a class="mini-btn" href="#">GitHub</a>
+                  <a class="mini-btn" href="projects.html">View Project</a>
                 </div>
               </div>
               <div class="back-visual">
                 <div class="back-visual-image img-5"></div>
                 <div class="back-visual-copy">
-                  <h4>Extra space for visuals</h4>
-                  <p>Use this side for another screenshot, diagram, game still, fabrication photo, UI mockup, or progress image.</p>
-                  <p>You can also swap this for a gallery, video preview, or short feature list later.</p>
+                  <h4>Visual area</h4>
+                  <p>Use this side for action shots, level screenshots, character moments, or a combat/mechanics view from Wizza.</p>
+                  <p>You could also show an environment still or enemy interaction here.</p>
                 </div>
               </div>
             </div>
@@ -917,32 +985,35 @@
         <article class="project-card-shell">
           <div class="project-flip">
             <div class="card-face card-front">
-              <div class="card-image img-6"></div>
+              <div class="card-image img-6">
+                <div class="image-file-label">future-project.jpg</div>
+              </div>
               <div class="card-content">
-                <span class="tag">Experiment</span>
-                <h3>Project Title Six</h3>
-                <p>Short one-paragraph overview of the project and what makes it interesting.</p>
+                <span class="tag">More Work</span>
+                <h3>Additional Creative Tech Work</h3>
+                <p>A flexible card for another project, prototype, experiment, or future case study you want to add once you choose the final piece.</p>
                 <div class="flip-hint">Click to expand + flip</div>
               </div>
             </div>
             <div class="card-face card-back">
               <div class="back-meta">
-                <h3>Project Title Six</h3>
-                <p>Add longer info here about your goal, process, and what the final project does. This bigger flipped layout gives you room for screenshots, process notes, feature callouts, links, and a stronger story.</p>
-                <div class="meta-line"><strong>Role:</strong> Fill this in</div>
-                <div class="meta-line"><strong>Tools:</strong> Fill this in</div>
-                <div class="meta-line wide-note"><strong>Notes:</strong> Add extra details, milestones, challenges, outcomes, and anything else you want people to understand about the project.</div>
+                <h3>Additional Creative Tech Work</h3>
+                <p>
+                  Keep this card open for another project you want to feature later. It could be another game, a fabrication build, a UX project, or an experimental prototype depending on what you want the final portfolio to emphasize most.
+                </p>
+                <div class="meta-line"><strong>Role:</strong> Open slot for another major project.</div>
+                <div class="meta-line"><strong>Tools:</strong> Update this depending on the final project you choose to feature.</div>
+                <div class="meta-line wide-note"><strong>Notes:</strong> This is a good place to add one more polished project so the page can keep growing without changing the structure. You can replace this with another strong game, system build, or web/design piece.</div>
                 <div class="back-actions">
-                  <a class="mini-btn" href="#">Project Link</a>
-                  <a class="mini-btn" href="#">GitHub</a>
+                  <a class="mini-btn" href="projects.html">View Project</a>
                 </div>
               </div>
               <div class="back-visual">
                 <div class="back-visual-image img-6"></div>
                 <div class="back-visual-copy">
-                  <h4>Extra space for visuals</h4>
-                  <p>Use this side for another screenshot, diagram, game still, fabrication photo, UI mockup, or progress image.</p>
-                  <p>You can also swap this for a gallery, video preview, or short feature list later.</p>
+                  <h4>Visual area</h4>
+                  <p>Drop in another strong project screenshot here once you decide what the sixth featured project will be.</p>
+                  <p>This keeps the layout finished while giving you flexibility later.</p>
                 </div>
               </div>
             </div>
@@ -952,8 +1023,20 @@
     </main>
   </div>
 
+  <audio id="bgMusic" loop>
+    <source src="music/home-theme.mp3" type="audio/mpeg">
+  </audio>
+
   <script>
     const flipCards = document.querySelectorAll('.project-card-shell');
+    const musicToggle = document.getElementById('musicToggle');
+    const bgMusic = document.getElementById('bgMusic');
+
+    const MUSIC_STORAGE_KEY = 'nw_music_enabled';
+    const MUSIC_TIME_KEY = 'nw_music_time';
+    const MUSIC_TRACK_KEY = 'nw_music_track';
+
+    let musicStarted = false;
 
     flipCards.forEach((card) => {
       card.addEventListener('click', (event) => {
@@ -970,6 +1053,114 @@
         }
       });
     });
+
+    function setMusicButtonState(isPlaying) {
+      if (isPlaying) {
+        musicToggle.classList.add('is-playing');
+        musicToggle.innerHTML = 'PAUSE MUSIC <span class="dot"></span>';
+      } else {
+        musicToggle.classList.remove('is-playing');
+        musicToggle.innerHTML = 'START MUSIC <span class="dot"></span>';
+      }
+    }
+
+    function saveMusicState() {
+      localStorage.setItem(MUSIC_STORAGE_KEY, (!bgMusic.paused).toString());
+      localStorage.setItem(MUSIC_TIME_KEY, String(bgMusic.currentTime || 0));
+
+      const currentSrc = bgMusic.currentSrc || bgMusic.getAttribute('src') || 'music/home-theme.mp3';
+      localStorage.setItem(MUSIC_TRACK_KEY, currentSrc);
+    }
+
+    function attachMusicPersistence() {
+      bgMusic.addEventListener('timeupdate', () => {
+        if (!bgMusic.paused) {
+          localStorage.setItem(MUSIC_TIME_KEY, String(bgMusic.currentTime || 0));
+        }
+      });
+
+      bgMusic.addEventListener('play', () => {
+        musicStarted = true;
+        setMusicButtonState(true);
+        saveMusicState();
+      });
+
+      bgMusic.addEventListener('pause', () => {
+        setMusicButtonState(false);
+        saveMusicState();
+      });
+
+      window.addEventListener('beforeunload', saveMusicState);
+
+      document.querySelectorAll('a[href]').forEach((link) => {
+        link.addEventListener('click', () => {
+          saveMusicState();
+        });
+      });
+    }
+
+    async function restoreMusicState() {
+      const shouldPlay = localStorage.getItem(MUSIC_STORAGE_KEY) === 'true';
+      const savedTime = parseFloat(localStorage.getItem(MUSIC_TIME_KEY) || '0');
+      const savedTrack = localStorage.getItem(MUSIC_TRACK_KEY);
+
+      if (savedTrack) {
+        const source = bgMusic.querySelector('source');
+        if (source && source.getAttribute('src') !== savedTrack) {
+          source.setAttribute('src', savedTrack);
+          bgMusic.load();
+        }
+      }
+
+      if (!Number.isNaN(savedTime) && savedTime > 0) {
+        const setTime = () => {
+          try {
+            bgMusic.currentTime = savedTime;
+          } catch (e) {
+            console.log('Could not restore music time yet:', e);
+          }
+        };
+
+        if (bgMusic.readyState >= 1) {
+          setTime();
+        } else {
+          bgMusic.addEventListener('loadedmetadata', setTime, { once: true });
+        }
+      }
+
+      if (shouldPlay) {
+        try {
+          await bgMusic.play();
+          musicStarted = true;
+          setMusicButtonState(true);
+        } catch (err) {
+          setMusicButtonState(false);
+          console.log('Music could not auto-resume yet:', err);
+        }
+      } else {
+        setMusicButtonState(false);
+      }
+    }
+
+    musicToggle.addEventListener('click', async () => {
+      try {
+        if (bgMusic.paused) {
+          await bgMusic.play();
+          musicStarted = true;
+          setMusicButtonState(true);
+        } else {
+          bgMusic.pause();
+          setMusicButtonState(false);
+        }
+
+        saveMusicState();
+      } catch (err) {
+        console.log('Music could not start yet:', err);
+      }
+    });
+
+    attachMusicPersistence();
+    restoreMusicState();
   </script>
 </body>
 </html>

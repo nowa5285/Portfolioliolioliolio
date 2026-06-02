@@ -120,11 +120,28 @@
       border-top-right-radius: 34px;
       border-bottom-right-radius: 34px;
       box-shadow: 20px 0 40px rgba(0,0,0,0.22);
+      animation: sidebarPeek 4.4s ease-in-out infinite;
     }
 
     .hover-zone:hover + .info-panel,
     .info-panel:hover {
       transform: translateX(0);
+      animation: none;
+    }
+
+    @keyframes sidebarPeek {
+      0%, 82%, 100% {
+        transform: translateX(-100%);
+      }
+      87% {
+        transform: translateX(calc(-100% + 12px));
+      }
+      91% {
+        transform: translateX(calc(-100% + 22px));
+      }
+      95% {
+        transform: translateX(calc(-100% + 10px));
+      }
     }
 
     .info-panel h2 {
@@ -192,7 +209,7 @@
       align-items: center;
       gap: 10px;
       opacity: 0.9;
-      transition: opacity .2s ease, transform .2s ease;
+      transition: opacity .2s ease, transform .2s ease, color .2s ease;
     }
 
     .start-link:hover {
@@ -206,6 +223,23 @@
       border-radius: 50%;
       border: 1px solid rgba(255,255,255,0.5);
       display: inline-block;
+      transition: background .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .music-toggle {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .music-toggle.is-playing {
+      color: #ffffff;
+    }
+
+    .music-toggle.is-playing .dot {
+      background: #62ff8f;
+      border-color: #62ff8f;
+      box-shadow: 0 0 12px rgba(98,255,143,0.75);
     }
 
     .nav-dots {
@@ -436,6 +470,7 @@
       display: grid;
       gap: 18px;
       clip-path: polygon(0 0, 96% 0, 100% 10%, 100% 100%, 6% 100%, 0 90%);
+      align-content: start;
     }
 
     .resume-card h2 {
@@ -588,29 +623,31 @@
     <aside class="info-panel">
       <h2>About</h2>
       <p>
-        This page is built like a stylized resume. It still reads clearly like a real about page, but the shapes, panels, and layout lean into a fractured sci-fi look.
+        I am a creative technologist and computer scientist focused on game development, UX/UI, web, interactive systems, and visual design.
       </p>
       <p>
-        You can swap in your headshot, update the summary, add real dates, and replace the filler sections with your real experience and skills.
+        I work across code, design, 3D tools, prototyping, and digital fabrication, and I like building projects that feel polished, playful, and technically solid.
       </p>
       <div class="info-grid">
         <div class="info-card">
-          <h3>Style</h3>
-          <span>Resume layout with a readable fractured / shattered visual theme.</span>
+          <h3>Focus</h3>
+          <span>Game development, UX/UI, creative coding, multiplayer systems, web design, and interactive experiences.</span>
         </div>
         <div class="info-card">
-          <h3>Use</h3>
-          <span>Good for face, summary, skills, education, experience, and contact info.</span>
+          <h3>Tools</h3>
+          <span>Godot, Unreal Engine, Blender, HTML, CSS, JavaScript, Figma, Arduino, 3D printing, and fabrication workflows.</span>
         </div>
         <div class="info-card">
-          <h3>Next step</h3>
-          <span>Replace the placeholder face area and fill in the real resume content.</span>
+          <h3>Approach</h3>
+          <span>I like learning fast, trying new things, and working across both technical and creative sides of a project.</span>
         </div>
       </div>
     </aside>
 
     <nav class="side-nav">
-      <a class="start-link" href="index.html">START <span class="dot"></span></a>
+      <button class="start-link music-toggle" id="musicToggle" type="button" aria-label="Toggle music">
+        START MUSIC <span class="dot"></span>
+      </button>
       <ul class="nav-dots">
         <li>
           <a href="index.html" title="Home"></a>
@@ -636,35 +673,35 @@
         <article class="portrait-card">
           <div class="portrait-frame">
             <div class="portrait-placeholder">
-              <strong>Your Face Here</strong>
-              <span>Drop in a headshot or stylized portrait</span>
+              <strong>Noah Wagner</strong>
+              <span>Headshot or stylized portrait</span>
             </div>
           </div>
           <div class="portrait-notes">
             <div class="chip">Creative Technologist</div>
+            <div class="chip">Computer Scientist</div>
             <div class="chip">Game Developer</div>
-            <div class="chip">Designer</div>
           </div>
         </article>
 
         <article class="summary-card">
-          <div class="eyebrow">Resume • Profile • About</div>
+          <div class="eyebrow">About • Profile • Resume</div>
           <h1>Noah Wagner</h1>
           <p>
-            I am a creative technologist focused on game development, interactive systems, visual design, prototyping, and digital fabrication. I like building playful, strange, and technical experiences that mix code, visuals, systems thinking, and hands-on making.
+            I am a creative technologist and computer scientist with experience across game development, UX/UI, web design, multiplayer systems, 3D workflows, prototyping, and digital fabrication. I enjoy building interactive work that combines design, code, problem solving, and strong visual direction.
           </p>
           <div class="summary-grid">
             <div class="stat-box">
               <strong>Focus</strong>
-              <span>Games, interaction, multiplayer systems, creative coding, UX</span>
+              <span>Games, UX/UI, web, multiplayer systems, and interactive design.</span>
             </div>
             <div class="stat-box">
               <strong>Tools</strong>
-              <span>Godot, Unreal, Blender, HTML/CSS/JS, Figma, Arduino</span>
+              <span>Godot, Unreal, Blender, HTML/CSS/JS, Figma, Arduino, fabrication tools.</span>
             </div>
             <div class="stat-box">
               <strong>Strengths</strong>
-              <span>Designing systems, prototyping fast, visual polish, technical curiosity</span>
+              <span>Creative systems thinking, fast prototyping, visual polish, and technical flexibility.</span>
             </div>
           </div>
         </article>
@@ -672,72 +709,95 @@
 
       <section class="resume-grid">
         <article class="resume-card">
-          <h2>Experience</h2>
+          <h2>What I Do</h2>
           <div class="stack">
             <div class="entry">
               <div class="entry-head">
-                <strong>Role Title / Studio / Team</strong>
-                <span>Year – Year</span>
+                <strong>Game Development</strong>
+                <span>Core</span>
               </div>
-              <p>Add a short role summary here. Explain what you worked on, what kind of projects you touched, and what made the role important.</p>
+              <p>
+                I build gameplay ideas, multiplayer interactions, strange systems, world concepts, and interactive experiences with a strong focus on feel, atmosphere, and functionality.
+              </p>
             </div>
+
             <div class="entry">
               <div class="entry-head">
-                <strong>Another Role / Lab / Project Team</strong>
-                <span>Year – Year</span>
+                <strong>Design + UX/UI</strong>
+                <span>Core</span>
               </div>
-              <ul>
-                <li>Add a project or responsibility</li>
-                <li>Add another strong bullet point</li>
-                <li>Add something technical or design-focused</li>
-              </ul>
+              <p>
+                I work on interface design, user experience, layout, visual direction, and polished presentation across websites, prototypes, and digital products.
+              </p>
             </div>
+
             <div class="entry">
               <div class="entry-head">
-                <strong>Freelance / Contract / Independent Work</strong>
-                <span>Year – Present</span>
+                <strong>Layout to Front-End Workflow</strong>
+                <span>Flow</span>
               </div>
-              <p>Use this for freelance work, side projects, school capstones, labs, or collaborative builds.</p>
+              <p>
+                I have an easy workflow from layout and early UX ideas to front-end builds, using AI tools, iteration, and touchups to move concepts into clean, usable, polished results.
+              </p>
+            </div>
+
+            <div class="entry">
+              <div class="entry-head">
+                <strong>Creative Tech + Making</strong>
+                <span>Core</span>
+              </div>
+              <p>
+                I also work with physical computing, prototyping, Arduino, 3D printing, fabrication, and interactive builds that combine hardware and software.
+              </p>
             </div>
           </div>
         </article>
 
         <article class="resume-card">
-          <h2>Education + Skills</h2>
+          <h2>Skills + Background</h2>
           <div class="stack">
             <div class="entry">
               <div class="entry-head">
-                <strong>Degree / School</strong>
-                <span>Year</span>
+                <strong>Background</strong>
+                <span>Education</span>
               </div>
-              <p>Creative technology and design background, computer science minor, or whatever exact degree wording you want here.</p>
+              <p>
+                Creative technology and design background with computer science experience. Former student athlete at CU Boulder with a strong interest in games, systems, design, and technical problem solving.
+              </p>
             </div>
+
             <div class="entry">
               <div class="entry-head">
-                <strong>Skill Areas</strong>
-                <span>Core</span>
+                <strong>Skills</strong>
+                <span>Tools</span>
               </div>
               <div class="skill-cloud">
                 <span class="skill-pill">Godot</span>
                 <span class="skill-pill">Unreal</span>
                 <span class="skill-pill">Blender</span>
-                <span class="skill-pill">HTML/CSS</span>
+                <span class="skill-pill">HTML</span>
+                <span class="skill-pill">CSS</span>
                 <span class="skill-pill">JavaScript</span>
                 <span class="skill-pill">Figma</span>
                 <span class="skill-pill">Arduino</span>
+                <span class="skill-pill">UX/UI</span>
+                <span class="skill-pill">Multiplayer</span>
                 <span class="skill-pill">3D Printing</span>
-                <span class="skill-pill">UX Design</span>
+                <span class="skill-pill">Prototyping</span>
+                <span class="skill-pill">Web Design</span>
+                <span class="skill-pill">Creative Coding</span>
               </div>
             </div>
+
             <div class="entry">
               <div class="entry-head">
                 <strong>General Info</strong>
-                <span>Resume</span>
+                <span>Profile</span>
               </div>
               <div class="contact-list">
-                <div class="contact-line">Email: yourname@email.com</div>
-                <div class="contact-line">Location: City, State</div>
-                <div class="contact-line">Links: GitHub / LinkedIn / Portfolio / Itch.io</div>
+                <div class="contact-line">Interested in game development, UX/UI, web, and interactive creative technology roles.</div>
+                <div class="contact-line">Open to learning new tools, workflows, and different kinds of technical and creative work.</div>
+                <div class="contact-line">Email, GitHub, LinkedIn, portfolio, and other links can go here.</div>
               </div>
             </div>
           </div>
@@ -745,5 +805,128 @@
       </section>
     </main>
   </div>
+
+  <audio id="bgMusic" loop>
+    <source src="music/home-theme.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const musicToggle = document.getElementById('musicToggle');
+    const bgMusic = document.getElementById('bgMusic');
+
+    const MUSIC_STORAGE_KEY = 'nw_music_enabled';
+    const MUSIC_TIME_KEY = 'nw_music_time';
+    const MUSIC_TRACK_KEY = 'nw_music_track';
+
+    let musicStarted = false;
+
+    function setMusicButtonState(isPlaying) {
+      if (isPlaying) {
+        musicToggle.classList.add('is-playing');
+        musicToggle.innerHTML = 'PAUSE MUSIC <span class="dot"></span>';
+      } else {
+        musicToggle.classList.remove('is-playing');
+        musicToggle.innerHTML = 'START MUSIC <span class="dot"></span>';
+      }
+    }
+
+    function saveMusicState() {
+      localStorage.setItem(MUSIC_STORAGE_KEY, (!bgMusic.paused).toString());
+      localStorage.setItem(MUSIC_TIME_KEY, String(bgMusic.currentTime || 0));
+
+      const currentSrc = bgMusic.currentSrc || bgMusic.getAttribute('src') || 'music/home-theme.mp3';
+      localStorage.setItem(MUSIC_TRACK_KEY, currentSrc);
+    }
+
+    function attachMusicPersistence() {
+      bgMusic.addEventListener('timeupdate', () => {
+        if (!bgMusic.paused) {
+          localStorage.setItem(MUSIC_TIME_KEY, String(bgMusic.currentTime || 0));
+        }
+      });
+
+      bgMusic.addEventListener('play', () => {
+        musicStarted = true;
+        setMusicButtonState(true);
+        saveMusicState();
+      });
+
+      bgMusic.addEventListener('pause', () => {
+        setMusicButtonState(false);
+        saveMusicState();
+      });
+
+      window.addEventListener('beforeunload', saveMusicState);
+
+      document.querySelectorAll('a[href]').forEach((link) => {
+        link.addEventListener('click', () => {
+          saveMusicState();
+        });
+      });
+    }
+
+    async function restoreMusicState() {
+      const shouldPlay = localStorage.getItem(MUSIC_STORAGE_KEY) === 'true';
+      const savedTime = parseFloat(localStorage.getItem(MUSIC_TIME_KEY) || '0');
+      const savedTrack = localStorage.getItem(MUSIC_TRACK_KEY);
+
+      if (savedTrack) {
+        const source = bgMusic.querySelector('source');
+        if (source && source.getAttribute('src') !== savedTrack) {
+          source.setAttribute('src', savedTrack);
+          bgMusic.load();
+        }
+      }
+
+      if (!Number.isNaN(savedTime) && savedTime > 0) {
+        const setTime = () => {
+          try {
+            bgMusic.currentTime = savedTime;
+          } catch (e) {
+            console.log('Could not restore music time yet:', e);
+          }
+        };
+
+        if (bgMusic.readyState >= 1) {
+          setTime();
+        } else {
+          bgMusic.addEventListener('loadedmetadata', setTime, { once: true });
+        }
+      }
+
+      if (shouldPlay) {
+        try {
+          await bgMusic.play();
+          musicStarted = true;
+          setMusicButtonState(true);
+        } catch (err) {
+          setMusicButtonState(false);
+          console.log('Music could not auto-resume yet:', err);
+        }
+      } else {
+        setMusicButtonState(false);
+      }
+    }
+
+    musicToggle.addEventListener('click', async () => {
+      try {
+        if (bgMusic.paused) {
+          await bgMusic.play();
+          musicStarted = true;
+          setMusicButtonState(true);
+        } else {
+          bgMusic.pause();
+          setMusicButtonState(false);
+        }
+
+        saveMusicState();
+      } catch (err) {
+        console.log('Music could not start yet:', err);
+      }
+    });
+
+    attachMusicPersistence();
+    restoreMusicState();
+  </script>
 </body>
 </html>

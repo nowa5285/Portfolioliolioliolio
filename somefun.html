@@ -273,11 +273,20 @@
       border-top-right-radius: 34px;
       border-bottom-right-radius: 34px;
       box-shadow: 20px 0 40px rgba(0,0,0,0.22);
+      animation: sidebarPeek 4.4s ease-in-out infinite;
     }
 
     .hover-zone:hover + .info-panel,
     .info-panel:hover {
       transform: translateX(0);
+      animation: none;
+    }
+
+    @keyframes sidebarPeek {
+      0%, 82%, 100% { transform: translateX(-100%); }
+      87% { transform: translateX(calc(-100% + 12px)); }
+      91% { transform: translateX(calc(-100% + 22px)); }
+      95% { transform: translateX(calc(-100% + 10px)); }
     }
 
     .info-panel h2 {
@@ -345,7 +354,7 @@
       align-items: center;
       gap: 10px;
       opacity: 0.9;
-      transition: opacity .2s ease, transform .2s ease;
+      transition: opacity .2s ease, transform .2s ease, color .2s ease;
     }
 
     .start-link:hover {
@@ -359,6 +368,23 @@
       border-radius: 50%;
       border: 1px solid rgba(255,255,255,0.5);
       display: inline-block;
+      transition: background .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .music-toggle {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .music-toggle.is-playing {
+      color: #ffffff;
+    }
+
+    .music-toggle.is-playing .dot {
+      background: #62ff8f;
+      border-color: #62ff8f;
+      box-shadow: 0 0 12px rgba(98,255,143,0.75);
     }
 
     .nav-dots {
@@ -454,7 +480,8 @@
 
     .game-card {
       position: relative;
-      min-height: 72vh;
+      height: min(82vh, 860px);
+      min-height: 720px;
       border-radius: 34px;
       border: 1px solid rgba(255,255,255,0.14);
       background: rgba(255,255,255,0.08);
@@ -479,7 +506,7 @@
 
     .game-front {
       display: grid;
-      grid-template-columns: 1.2fr 1fr;
+      grid-template-columns: 1.1fr 1fr;
       align-items: stretch;
     }
 
@@ -487,15 +514,17 @@
       transform: rotateY(180deg);
       opacity: 0;
       display: grid;
-      grid-template-columns: 1.05fr 1fr;
-      padding: 28px;
+      grid-template-columns: 1.08fr 0.92fr;
       gap: 22px;
-      background: rgba(25, 26, 48, 0.94);
+      padding: 28px;
+      background: rgba(25, 26, 48, 0.96);
+      overflow: auto;
     }
 
     .game-card.is-open .game-front {
       transform: rotateY(180deg);
       opacity: 0;
+      pointer-events: none;
     }
 
     .game-card.is-open .game-back {
@@ -515,6 +544,23 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(180deg, rgba(0,0,0,0.04), rgba(0,0,0,0.3));
+    }
+
+    .image-file-label {
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      z-index: 2;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(13, 16, 34, 0.78);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.92);
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      backdrop-filter: blur(8px);
     }
 
     .game-visual.one { background-image: linear-gradient(135deg, rgba(120,92,255,0.40), rgba(217,239,78,0.22)), url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1400&q=80'); }
@@ -571,6 +617,7 @@
       display: grid;
       align-content: start;
       gap: 14px;
+      min-width: 0;
     }
 
     .back-grid {
@@ -595,6 +642,35 @@
       color: rgba(255,255,255,0.9);
     }
 
+    .back-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+
+    .mini-btn {
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.04);
+      transition: transform .2s ease, border-color .2s ease, color .2s ease, background .2s ease;
+      width: fit-content;
+    }
+
+    .mini-btn:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.34);
+      color: var(--yellow);
+      background: rgba(255,255,255,0.08);
+    }
+
     .back-shot {
       border-radius: 24px;
       overflow: hidden;
@@ -602,6 +678,8 @@
       background: rgba(255,255,255,0.05);
       display: grid;
       grid-template-rows: 320px 1fr;
+      min-width: 0;
+      min-height: 100%;
     }
 
     .back-shot-image {
@@ -656,6 +734,7 @@
       overflow: visible;
       position: absolute;
       inset: 0;
+      pointer-events: none;
     }
 
     .side-path .path-glow {
@@ -692,6 +771,9 @@
       cursor: pointer;
       pointer-events: auto;
       transition: transform .16s ease;
+      border: none;
+      background: transparent;
+      padding: 0;
     }
 
     .alien-runner:hover {
@@ -725,25 +807,72 @@
       left: 50%;
       top: -18px;
       transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 170px;
+      min-height: 46px;
+      padding: 10px 18px;
       font-size: 0.68rem;
       font-weight: 800;
       letter-spacing: 0.14em;
       text-transform: uppercase;
+      text-align: center;
       color: rgba(255,255,255,0.88);
       white-space: nowrap;
-      background: rgba(20,22,44,0.78);
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 8px 11px;
+      background: rgba(20,22,44,0.9);
+      border: 1px solid rgba(255,255,255,0.12);
       border-radius: 999px;
       backdrop-filter: blur(10px);
-      box-shadow: 0 8px 18px rgba(0,0,0,0.14);
-      pointer-events: none;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+      cursor: pointer;
+      pointer-events: auto;
+      z-index: 12;
+      appearance: none;
+      -webkit-appearance: none;
+      transition:
+        transform .2s ease,
+        color .2s ease,
+        border-color .2s ease,
+        background .2s ease,
+        box-shadow .2s ease;
+    }
+
+    .path-note:hover {
+      transform: translateX(-50%) translateY(-2px) scale(1.03);
+      color: #ffffff;
+      border-color: rgba(217,239,78,0.55);
+      background: rgba(34,38,70,0.98);
+      box-shadow:
+        0 12px 24px rgba(0,0,0,0.22),
+        0 0 18px rgba(217,239,78,0.18);
+    }
+
+    .path-note:active {
+      transform: translateX(-50%) translateY(0) scale(0.98);
+    }
+
+    .path-note:focus-visible {
+      transform: translateX(-50%) translateY(-2px) scale(1.03);
+      color: #ffffff;
+      border-color: rgba(217,239,78,0.7);
+      background: rgba(34,38,70,0.98);
+      box-shadow:
+        0 12px 24px rgba(0,0,0,0.22),
+        0 0 18px rgba(217,239,78,0.22);
+      outline: 2px solid rgba(217,239,78,0.95);
+      outline-offset: 4px;
     }
 
     @media (max-width: 1100px) {
       .game-front,
       .game-back {
         grid-template-columns: 1fr;
+      }
+
+      .game-card {
+        height: auto;
+        min-height: 980px;
       }
 
       .game-visual {
@@ -794,7 +923,8 @@
       }
 
       .game-card {
-        min-height: 82vh;
+        height: auto;
+        min-height: 1100px;
       }
 
       .back-shot {
@@ -827,31 +957,33 @@
     <div class="hover-zone" aria-hidden="true"></div>
 
     <aside class="info-panel">
-      <h2>Game Page</h2>
+      <h2>Games + Me</h2>
       <p>
-        This page is built like a fun animated game showcase. Each section is big and almost full page so you can feature one game at a time.
+        Games are one of the biggest things I care about creatively and professionally. It is a real goal of mine to work in the game industry and build experiences that feel memorable, interactive, and genuinely fun for people to explore.
       </p>
       <p>
-        The alien is now easier to see and click, the path stays visible, and the path lights up as the alien moves to the next game.
+        I am especially drawn to game development because it brings together systems, design, atmosphere, worldbuilding, interaction, and technical problem solving. I like projects where I can think like both a designer and a builder.
       </p>
       <div class="info-grid">
         <div class="info-card">
-          <h3>Layout</h3>
-          <span>Large feature sections for each game instead of a dense grid.</span>
+          <h3>Dream Role</h3>
+          <span>I want to work in the game industry and keep growing in gameplay systems, technical design, worldbuilding, multiplayer, UI, and creative development work.</span>
         </div>
         <div class="info-card">
-          <h3>Interaction</h3>
-          <span>The alien acts like the guide between sections and opens each game card.</span>
+          <h3>Engines + Tools</h3>
+          <span>I am familiar with Godot, Unreal Engine, Blender, HTML/CSS/JavaScript, prototyping workflows, and other creative tech tools that help me move between design and development.</span>
         </div>
         <div class="info-card">
-          <h3>Style</h3>
-          <span>Pixel landscape, futuristic arcade mood, playful animated motion.</span>
+          <h3>How I Work</h3>
+          <span>I like learning by making. I enjoy experimenting, solving technical problems, and building across different areas, especially when a project mixes creative ideas with real implementation.</span>
         </div>
       </div>
     </aside>
 
     <nav class="side-nav">
-      <a class="start-link" href="index.html">START <span class="dot"></span></a>
+      <button class="start-link music-toggle" id="musicToggle" type="button" aria-label="Toggle music">
+        START MUSIC <span class="dot"></span>
+      </button>
       <ul class="nav-dots">
         <li>
           <a href="index.html" title="Home"></a>
@@ -876,7 +1008,7 @@
       <div class="eyebrow">Playable Worlds • Weird Systems • Interactive Stuff</div>
       <h1>Game</h1>
       <p>
-        Big feature cards, side-path alien travel, and a more arcade-pixel background. Click the little alien guide on the side path and it will travel to the next section, reveal the path, flip open the next game, and move the page with it.
+        Big feature cards, side-path alien travel, and a more arcade-pixel background. Click the alien guide or the guide text on the side path and it will travel to the next section, reveal the path, flip open the next game, and move the page with it.
       </p>
     </header>
 
@@ -884,39 +1016,64 @@
       <section class="game-section">
         <section class="game-card is-open" id="game-1">
           <div class="game-front">
-            <div class="game-visual one"></div>
+            <div class="game-visual one">
+              <div class="image-file-label">welcome-to-suburbia-feature.jpg</div>
+            </div>
             <div class="game-copy">
               <span class="tag">Game One</span>
-              <h2>Featured Game Title</h2>
-              <p>Use this first section for your main game. This front side is the big simple hero version with the title, short pitch, and image.</p>
+              <h2>Welcome to Suburbia</h2>
+              <p>
+                A multiplayer horror-comedy experience set in an endless suburban neighborhood where the HOA is actually a demon cult. The project mixes procedural generation, strange systems, humor, tension, and escalating horror into a weird world that feels both funny and unsettling.
+              </p>
               <div class="flip-hint">Opened by the alien guide</div>
             </div>
           </div>
+
           <div class="game-back">
             <div class="back-copy">
               <span class="tag">Expanded View</span>
-              <h2>Featured Game Title</h2>
-              <p>Add more detailed project info here. This can be your genre, core mechanic, inspiration, dev notes, or a short design story.</p>
+              <h2>Welcome to Suburbia</h2>
+              <p>
+                Welcome to Suburbia is one of my main game projects and a strong example of the kind of work I want to keep doing. The game is built around a multiplayer suburban setting that slowly becomes more disturbing over time, using procedural neighborhoods, interactive systems, and a tonal mix of absurd humor and creeping horror.
+              </p>
+
               <div class="back-grid">
                 <div class="back-panel">
                   <strong>Core idea</strong>
-                  <p>Fill this in with the main concept of the game.</p>
+                  <p>
+                    Players explore an infinite-feeling neighborhood where normal suburban life hides something demonic underneath. The concept is about taking a familiar place and making it increasingly wrong, strange, and hostile.
+                  </p>
                 </div>
+
                 <div class="back-panel">
-                  <strong>What you made</strong>
-                  <p>Fill this in with your role, systems, art, code, multiplayer work, or level design.</p>
+                  <strong>What I made</strong>
+                  <p>
+                    This project involves gameplay systems, multiplayer work, procedural world ideas, environmental tone, interaction design, and overall creative direction for the experience.
+                  </p>
                 </div>
+
                 <div class="back-panel">
-                  <strong>Extra notes</strong>
-                  <p>Use this area for process notes, devlog details, challenges, or future goals.</p>
+                  <strong>Why it matters</strong>
+                  <p>
+                    It reflects a lot of what I care about in game development: atmosphere, systems, player discovery, experimentation, technical problem solving, and creating a unique identity for a world.
+                  </p>
                 </div>
               </div>
+
+              <div class="back-actions">
+                <a class="mini-btn" href="https://welcometosuburbia.com/" target="_blank" rel="noopener noreferrer">Visit Project</a>
+              </div>
             </div>
+
             <div class="back-shot">
-              <div class="back-shot-image back-shot one"></div>
+              <div class="back-shot-image back-shot one">
+                <div class="image-file-label">welcome-to-suburbia-detail.jpg</div>
+              </div>
               <div class="back-shot-copy">
                 <h3>Visual area</h3>
-                <p>Put another screenshot, trailer still, map, UI image, or feature breakdown here later.</p>
+                <p>
+                  Use this space for a screenshot, gameplay moment, environment shot, system breakdown, or multiplayer view from Welcome to Suburbia.
+                </p>
               </div>
             </div>
           </div>
@@ -928,7 +1085,8 @@
             <path class="path-main" d="M 48 18 C 70 70, 28 130, 56 188 S 74 290, 46 402"></path>
             <path class="path-progress" d="M 48 18 C 70 70, 28 130, 56 188 S 74 290, 46 402"></path>
           </svg>
-          <div class="alien-runner" tabindex="0" role="button" aria-label="Move alien to next game">
+
+          <button class="alien-runner" type="button" tabindex="0" aria-label="Move alien to next game">
             <span class="pixel" style="left:12px;top:0px"></span>
             <span class="pixel" style="left:18px;top:0px"></span>
             <span class="pixel" style="left:24px;top:0px"></span>
@@ -950,47 +1108,69 @@
             <span class="pixel" style="left:24px;top:24px"></span>
             <span class="pixel" style="left:6px;top:30px"></span>
             <span class="pixel" style="left:30px;top:30px"></span>
-          </div>
-          <div class="path-note">Click the alien guide</div>
+          </button>
+
+          <button class="path-note" type="button">Go To Next Game</button>
         </div>
       </section>
 
       <section class="game-section">
         <section class="game-card" id="game-2">
           <div class="game-front">
-            <div class="game-visual two"></div>
+            <div class="game-visual two">
+              <div class="image-file-label">spacestar-feature.jpg</div>
+            </div>
             <div class="game-copy">
               <span class="tag">Game Two</span>
-              <h2>Second Game Title</h2>
-              <p>Use this section for another game, prototype, or interactive experiment you want to feature in a big way.</p>
+              <h2>SpaceStar</h2>
+              <p>
+                A work-in-progress game concept with a more space-driven identity. This section is set up as a feature space for the project while the world, mechanics, and final direction continue to develop.
+              </p>
               <div class="flip-hint">Opened by the alien guide</div>
             </div>
           </div>
+
           <div class="game-back">
             <div class="back-copy">
-              <span class="tag">Expanded View</span>
-              <h2>Second Game Title</h2>
-              <p>Add more detailed project info here. This can be your genre, core mechanic, inspiration, dev notes, or a short design story.</p>
+              <span class="tag">Work in Progress</span>
+              <h2>SpaceStar</h2>
+              <p>
+                SpaceStar is currently a work in progress and a place to develop new ideas around space, exploration, stylized visuals, and interactive systems. It gives room for experimentation while the larger concept continues to evolve.
+              </p>
+
               <div class="back-grid">
                 <div class="back-panel">
-                  <strong>Core idea</strong>
-                  <p>Fill this in with the main concept of the game.</p>
+                  <strong>Current state</strong>
+                  <p>
+                    Early concept and development stage, with space to define the core loop, player movement, world feel, and visual direction.
+                  </p>
                 </div>
+
                 <div class="back-panel">
-                  <strong>What you made</strong>
-                  <p>Fill this in with your role, systems, art, code, multiplayer work, or level design.</p>
+                  <strong>What it could become</strong>
+                  <p>
+                    This project can grow into something more exploratory, more arcade-like, or more system-focused depending on where the strongest ideas take it.
+                  </p>
                 </div>
+
                 <div class="back-panel">
-                  <strong>Extra notes</strong>
-                  <p>Use this area for process notes, devlog details, challenges, or future goals.</p>
+                  <strong>Why keep it here</strong>
+                  <p>
+                    It shows active development, future direction, and the kinds of worlds and game ideas I want to keep building.
+                  </p>
                 </div>
               </div>
             </div>
+
             <div class="back-shot">
-              <div class="back-shot-image back-shot two"></div>
+              <div class="back-shot-image back-shot two">
+                <div class="image-file-label">spacestar-detail.jpg</div>
+              </div>
               <div class="back-shot-copy">
                 <h3>Visual area</h3>
-                <p>Put another screenshot, trailer still, map, UI image, or feature breakdown here later.</p>
+                <p>
+                  Use this area for concept art, prototype screenshots, UI exploration, or a world preview for SpaceStar.
+                </p>
               </div>
             </div>
           </div>
@@ -1002,7 +1182,8 @@
             <path class="path-main" d="M 52 18 C 30 82, 72 138, 44 202 S 24 298, 54 404"></path>
             <path class="path-progress" d="M 52 18 C 30 82, 72 138, 44 202 S 24 298, 54 404"></path>
           </svg>
-          <div class="alien-runner" tabindex="0" role="button" aria-label="Move alien to next game">
+
+          <button class="alien-runner" type="button" tabindex="0" aria-label="Move alien to next game">
             <span class="pixel" style="left:12px;top:0px"></span>
             <span class="pixel" style="left:18px;top:0px"></span>
             <span class="pixel" style="left:24px;top:0px"></span>
@@ -1024,47 +1205,67 @@
             <span class="pixel" style="left:24px;top:24px"></span>
             <span class="pixel" style="left:6px;top:30px"></span>
             <span class="pixel" style="left:30px;top:30px"></span>
-          </div>
-          <div class="path-note">Click the alien guide</div>
+          </button>
+
+          <button class="path-note" type="button">Go To Next Game</button>
         </div>
       </section>
 
       <section class="game-section">
         <section class="game-card" id="game-3">
           <div class="game-front">
-            <div class="game-visual three"></div>
+            <div class="game-visual three">
+              <div class="image-file-label">work-in-progress-feature.jpg</div>
+            </div>
             <div class="game-copy">
               <span class="tag">Game Three</span>
-              <h2>Third Game Title</h2>
-              <p>Use this third section for one more game, concept, prototype, or stylish playable world.</p>
+              <h2>Work in Progress</h2>
+              <p>
+                A placeholder for another game, prototype, or experimental world that is still taking shape. This section keeps room open for the next project as it develops.
+              </p>
               <div class="flip-hint">Opened by the alien guide</div>
             </div>
           </div>
+
           <div class="game-back">
             <div class="back-copy">
-              <span class="tag">Expanded View</span>
-              <h2>Third Game Title</h2>
-              <p>Add more detailed project info here. This can be your genre, core mechanic, inspiration, dev notes, or a short design story.</p>
+              <span class="tag">Work in Progress</span>
+              <h2>Work in Progress</h2>
+              <p>
+                This space is for the next game or interactive idea that will eventually become part of the portfolio. It can be used for a prototype, a new system-driven concept, or a project that is still early in development.
+              </p>
+
               <div class="back-grid">
                 <div class="back-panel">
-                  <strong>Core idea</strong>
-                  <p>Fill this in with the main concept of the game.</p>
+                  <strong>Current state</strong>
+                  <p>Still in development, planning, or experimentation.</p>
                 </div>
+
                 <div class="back-panel">
-                  <strong>What you made</strong>
-                  <p>Fill this in with your role, systems, art, code, multiplayer work, or level design.</p>
+                  <strong>Potential focus</strong>
+                  <p>
+                    Could become another playable prototype, stylized world, or mechanic-heavy experiment depending on what direction fits best.
+                  </p>
                 </div>
+
                 <div class="back-panel">
-                  <strong>Extra notes</strong>
-                  <p>Use this area for process notes, devlog details, challenges, or future goals.</p>
+                  <strong>Why it matters</strong>
+                  <p>
+                    It keeps the page future-facing and shows that new ideas and projects are actively being built.
+                  </p>
                 </div>
               </div>
             </div>
+
             <div class="back-shot">
-              <div class="back-shot-image back-shot three"></div>
+              <div class="back-shot-image back-shot three">
+                <div class="image-file-label">work-in-progress-detail.jpg</div>
+              </div>
               <div class="back-shot-copy">
                 <h3>Visual area</h3>
-                <p>Put another screenshot, trailer still, map, UI image, or feature breakdown here later.</p>
+                <p>
+                  Use this space for future screenshots, concept images, or a feature preview once the next project is ready.
+                </p>
               </div>
             </div>
           </div>
@@ -1073,9 +1274,110 @@
     </main>
   </div>
 
+  <audio id="bgMusic" loop>
+    <source src="music/home-theme.mp3" type="audio/mpeg">
+  </audio>
+
   <script>
     const gameCards = Array.from(document.querySelectorAll('.game-card'));
     const connectors = Array.from(document.querySelectorAll('.connector'));
+    const musicToggle = document.getElementById('musicToggle');
+    const bgMusic = document.getElementById('bgMusic');
+
+    const MUSIC_STORAGE_KEY = 'nw_music_enabled';
+    const MUSIC_TIME_KEY = 'nw_music_time';
+    const MUSIC_TRACK_KEY = 'nw_music_track';
+
+    let musicStarted = false;
+    let animating = false;
+
+    function setMusicButtonState(isPlaying) {
+      if (isPlaying) {
+        musicToggle.classList.add('is-playing');
+        musicToggle.innerHTML = 'PAUSE MUSIC <span class="dot"></span>';
+      } else {
+        musicToggle.classList.remove('is-playing');
+        musicToggle.innerHTML = 'START MUSIC <span class="dot"></span>';
+      }
+    }
+
+    function saveMusicState() {
+      localStorage.setItem(MUSIC_STORAGE_KEY, (!bgMusic.paused).toString());
+      localStorage.setItem(MUSIC_TIME_KEY, String(bgMusic.currentTime || 0));
+
+      const currentSrc = bgMusic.currentSrc || bgMusic.getAttribute('src') || 'music/home-theme.mp3';
+      localStorage.setItem(MUSIC_TRACK_KEY, currentSrc);
+    }
+
+    function attachMusicPersistence() {
+      bgMusic.addEventListener('timeupdate', () => {
+        if (!bgMusic.paused) {
+          localStorage.setItem(MUSIC_TIME_KEY, String(bgMusic.currentTime || 0));
+        }
+      });
+
+      bgMusic.addEventListener('play', () => {
+        musicStarted = true;
+        setMusicButtonState(true);
+        saveMusicState();
+      });
+
+      bgMusic.addEventListener('pause', () => {
+        setMusicButtonState(false);
+        saveMusicState();
+      });
+
+      window.addEventListener('beforeunload', saveMusicState);
+
+      document.querySelectorAll('a[href]').forEach((link) => {
+        link.addEventListener('click', () => {
+          saveMusicState();
+        });
+      });
+    }
+
+    async function restoreMusicState() {
+      const shouldPlay = localStorage.getItem(MUSIC_STORAGE_KEY) === 'true';
+      const savedTime = parseFloat(localStorage.getItem(MUSIC_TIME_KEY) || '0');
+      const savedTrack = localStorage.getItem(MUSIC_TRACK_KEY);
+
+      if (savedTrack) {
+        const source = bgMusic.querySelector('source');
+        if (source && source.getAttribute('src') !== savedTrack) {
+          source.setAttribute('src', savedTrack);
+          bgMusic.load();
+        }
+      }
+
+      if (!Number.isNaN(savedTime) && savedTime > 0) {
+        const setTime = () => {
+          try {
+            bgMusic.currentTime = savedTime;
+          } catch (e) {
+            console.log('Could not restore music time yet:', e);
+          }
+        };
+
+        if (bgMusic.readyState >= 1) {
+          setTime();
+        } else {
+          bgMusic.addEventListener('loadedmetadata', setTime, { once: true });
+        }
+      }
+
+      if (shouldPlay) {
+        try {
+          await bgMusic.play();
+          musicStarted = true;
+          setMusicButtonState(true);
+        } catch (err) {
+          setMusicButtonState(false);
+          console.log('Music could not auto-resume yet:', err);
+        }
+      } else {
+        setMusicButtonState(false);
+      }
+    }
 
     function closeAllCards() {
       gameCards.forEach((card) => card.classList.remove('is-open'));
@@ -1088,7 +1390,7 @@
       card.classList.add('is-open');
       setTimeout(() => {
         card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 180);
+      }, 120);
     }
 
     function pointOnPath(path, progress) {
@@ -1108,6 +1410,8 @@
       const path = getMainPath(connector);
       const progressPath = getProgressPath(connector);
       const alien = connector.querySelector('.alien-runner');
+      if (!path || !progressPath || !alien) return;
+
       const svg = connector.querySelector('svg');
       const pt = pointOnPath(path, progress);
       const vb = svg.viewBox.baseVal;
@@ -1121,10 +1425,20 @@
     }
 
     function animateAlien(connector, onDone) {
+      if (animating) return;
+      animating = true;
+
       const alien = connector.querySelector('.alien-runner');
       const path = getMainPath(connector);
       const progressPath = getProgressPath(connector);
       const svg = connector.querySelector('svg');
+
+      if (!alien || !path || !progressPath || !svg) {
+        animating = false;
+        if (onDone) onDone();
+        return;
+      }
+
       const vb = svg.viewBox.baseVal;
       const totalLength = path.getTotalLength();
       const duration = 1700;
@@ -1144,8 +1458,9 @@
 
         if (progress < 1) {
           requestAnimationFrame(step);
-        } else if (onDone) {
-          onDone();
+        } else {
+          animating = false;
+          if (onDone) onDone();
         }
       }
 
@@ -1154,25 +1469,67 @@
 
     connectors.forEach((connector) => {
       placeAlien(connector, 0);
+
       const alien = connector.querySelector('.alien-runner');
+      const note = connector.querySelector('.path-note');
       const targetId = connector.dataset.to;
 
       const runToNext = () => {
         animateAlien(connector, () => openCardById(targetId));
       };
 
-      alien.addEventListener('click', runToNext);
-      alien.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          runToNext();
-        }
-      });
+      if (alien) {
+        alien.addEventListener('click', runToNext);
+        alien.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            runToNext();
+          }
+        });
+      }
+
+      if (note) {
+        ['click', 'pointerdown', 'touchstart'].forEach((evtName) => {
+          note.addEventListener(evtName, (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            runToNext();
+          }, { passive: false });
+        });
+
+        note.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            event.stopPropagation();
+            runToNext();
+          }
+        });
+      }
     });
 
     window.addEventListener('resize', () => {
       connectors.forEach((connector) => placeAlien(connector, 0));
     });
+
+    musicToggle.addEventListener('click', async () => {
+      try {
+        if (bgMusic.paused) {
+          await bgMusic.play();
+          musicStarted = true;
+          setMusicButtonState(true);
+        } else {
+          bgMusic.pause();
+          setMusicButtonState(false);
+        }
+
+        saveMusicState();
+      } catch (err) {
+        console.log('Music could not start yet:', err);
+      }
+    });
+
+    attachMusicPersistence();
+    restoreMusicState();
   </script>
 </body>
 </html>

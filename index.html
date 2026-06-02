@@ -566,6 +566,7 @@
       text-transform: uppercase;
       background: rgba(255,255,255,0.04);
       transition: transform .2s ease, background .2s ease, border-color .2s ease, color .2s ease;
+      cursor: pointer;
     }
 
     .btn:hover {
@@ -632,6 +633,23 @@
       border-radius: 50%;
       border: 1px solid rgba(255,255,255,0.5);
       display: inline-block;
+      transition: background .2s ease, border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .music-toggle {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .music-toggle.is-playing .dot {
+      background: #62ff8f;
+      border-color: #62ff8f;
+      box-shadow: 0 0 12px rgba(98,255,143,0.75);
+    }
+
+    .music-toggle.is-playing {
+      color: #ffffff;
     }
 
     .nav-dots {
@@ -710,11 +728,28 @@
       border-top-right-radius: 34px;
       border-bottom-right-radius: 34px;
       box-shadow: 20px 0 40px rgba(0,0,0,0.22);
+      animation: sidebarPeek 4.4s ease-in-out infinite;
     }
 
     .hover-zone:hover + .info-panel,
     .info-panel:hover {
       transform: translateX(0);
+      animation: none;
+    }
+
+    @keyframes sidebarPeek {
+      0%, 82%, 100% {
+        transform: translateX(-100%);
+      }
+      87% {
+        transform: translateX(calc(-100% + 12px));
+      }
+      91% {
+        transform: translateX(calc(-100% + 22px));
+      }
+      95% {
+        transform: translateX(calc(-100% + 10px));
+      }
     }
 
     .info-panel h2 {
@@ -840,6 +875,23 @@
       background: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.22));
     }
 
+    .image-file-label {
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      z-index: 2;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(13, 16, 34, 0.78);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.92);
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      backdrop-filter: blur(8px);
+    }
+
     .img-one { background-image: linear-gradient(135deg, rgba(120,92,255,0.55), rgba(217,239,78,0.38)), url('https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1200&q=80'); }
     .img-two { background-image: linear-gradient(135deg, rgba(255,90,150,0.4), rgba(80,110,255,0.42)), url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80'); }
     .img-three { background-image: linear-gradient(135deg, rgba(90,255,210,0.35), rgba(100,70,255,0.45)), url('https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?auto=format&fit=crop&w=1200&q=80'); }
@@ -943,6 +995,33 @@
     }
 
     .event-note.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .copy-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 84px;
+      transform: translateX(-50%) translateY(30px);
+      background: rgba(18,18,34,0.92);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.94);
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      z-index: 40;
+      opacity: 0;
+      transition: opacity .25s ease, transform .25s ease;
+      pointer-events: none;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+      text-align: center;
+      max-width: min(90vw, 420px);
+    }
+
+    .copy-toast.show {
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
@@ -1065,31 +1144,33 @@
     <div class="hover-zone" aria-hidden="true"></div>
 
     <aside class="info-panel">
-      <h2>About Me</h2>
+      <h2>Me</h2>
       <p>
-        I am Noah Wagner, a creative technologist working across game development, interactive systems, multiplayer experiences, 3D workflows, and visual design.
+        I am Noah Wagner, a creative technologist and computer scientist with interests in game development, UI/UX design, coding, and interactive digital experiences. I enjoy building things that feel playful, polished, and technically strong.
       </p>
       <p>
-        This tab opens from the left so the right side stays focused on navigation and the main page visuals.
+        I am open to learning new tools, trying new workflows, and stepping into different kinds of creative and technical roles. I like growing through hands-on projects and figuring things out across design, development, and problem solving.
       </p>
       <div class="info-grid">
         <div class="info-card">
-          <h3>Focus</h3>
-          <span>Game systems, networking, UX, procedural design, 3D pipelines</span>
+          <h3>What I Like</h3>
+          <span>Game development, UI/UX, coding, creative tech, interactive systems, and building digital experiences that feel engaging and well designed.</span>
         </div>
         <div class="info-card">
-          <h3>Tools</h3>
-          <span>Godot, Unreal, Blender, HTML/CSS/JS, Arduino, Figma</span>
+          <h3>What I Bring</h3>
+          <span>A broad skill set across code, design, 3D tools, prototyping, and technical problem solving, with the ability to adapt and work across a lot of different kinds of projects.</span>
         </div>
         <div class="info-card">
-          <h3>Contact</h3>
-          <span>youremail@email.com<br>LinkedIn / GitHub / Itch.io</span>
+          <h3>Mindset</h3>
+          <span>Curious, flexible, and always open to learning more, improving my work, and taking on new challenges in creative and technical spaces.</span>
         </div>
       </div>
     </aside>
 
     <nav class="side-nav">
-      <a class="start-link" href="index.html">START <span class="dot"></span></a>
+      <button class="start-link music-toggle" id="musicToggle" type="button" aria-label="Start music">
+        START MUSIC <span class="dot"></span>
+      </button>
       <ul class="nav-dots">
         <li>
           <a href="index.html" class="active" title="Home"></a>
@@ -1112,9 +1193,9 @@
 
     <section class="hero">
       <div class="hero-content">
-        <div class="eyebrow">Creative Technologist • Game Developer • Designer</div>
+        <div class="eyebrow">Creative Technologist • Computer Scientist • Game Developer • Designer</div>
         <h1>Hello;</h1>
-        <p>I'm Noah Wagner. I build playful systems, visual worlds, multiplayer interactions, and weird interactive experiences.</p>
+        <p>I'm Noah Wagner, a creative technologist and computer scientist. I build playful systems, visual worlds, multiplayer interactions, and weird interactive experiences.</p>
         <div class="hero-actions">
           <a href="projects.html" class="btn">See Projects</a>
           <a href="about.html" class="btn">About Me</a>
@@ -1129,42 +1210,47 @@
         <div class="track" id="track">
           <article class="slide">
             <div class="project-card">
-              <div class="project-image img-one"></div>
+              <div class="project-image img-one">
+                <div class="image-file-label">suburbia-home-shot.jpg</div>
+              </div>
               <div class="project-meta">
                 <span class="tag">Featured Project</span>
                 <h3>Welcome to Suburbia</h3>
                 <p>A multiplayer horror-comedy project with procedural neighborhoods, strange systems, and escalating cult-like suburban chaos.</p>
                 <div class="project-links">
-                  <a href="projects.html">View Project</a>
-                  <a href="#">GitHub</a>
+                  <a href="https://welcometosuburbia.com/" target="_blank" rel="noopener noreferrer">Visit Project</a>
                 </div>
               </div>
             </div>
           </article>
+
           <article class="slide">
             <div class="project-card">
-              <div class="project-image img-two"></div>
+              <div class="project-image img-two">
+                <div class="image-file-label">rgb-matrix-counter.jpg</div>
+              </div>
               <div class="project-meta">
                 <span class="tag">Interactive Build</span>
                 <h3>RGB Matrix Room Counter</h3>
                 <p>A physical interactive system using sensors, enclosure design, and display programming to make a live people-count experience.</p>
                 <div class="project-links">
-                  <a href="projects.html">Case Study</a>
-                  <a href="somefun.html">Photos</a>
+                  <a href="projects.html">View Project</a>
                 </div>
               </div>
             </div>
           </article>
+
           <article class="slide">
             <div class="project-card">
-              <div class="project-image img-three"></div>
+              <div class="project-image img-three">
+                <div class="image-file-label">ux-fab-gallery.jpg</div>
+              </div>
               <div class="project-meta">
                 <span class="tag">Design + Code</span>
                 <h3>UX and Fabrication Work</h3>
                 <p>Portfolio pieces across interface design, prototyping, 3D printing, laser cutting, and creative coding with a modern visual style.</p>
                 <div class="project-links">
-                  <a href="somefun.html">Open Gallery</a>
-                  <a href="projects.html">Read More</a>
+                  <a href="projects.html">View Project</a>
                 </div>
               </div>
             </div>
@@ -1179,14 +1265,29 @@
   <section id="contact" style="padding: 120px 24px 80px; text-align: center; background: rgba(0,0,0,0.12); border-top: 1px solid rgba(255,255,255,0.08);">
     <h2 style="font-size: clamp(2rem, 5vw, 3.5rem); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 18px;">Contact</h2>
     <p style="max-width: 700px; margin: 0 auto 20px; line-height: 1.8; color: rgba(255,255,255,0.75);">
-      Replace this with your real email, resume link, GitHub, LinkedIn, or a contact form later.
+      Tap the button below to copy my email address quickly.
     </p>
-    <a href="mailto:youremail@email.com" class="btn">Email Me</a>
+    <button id="copyEmailBtn" class="btn" type="button">Email Me</button>
   </section>
 
   <div class="event-note" id="eventNote">UFO flyby</div>
+  <div class="copy-toast" id="copyToast">Email copied to clipboard.</div>
+
+  <audio id="bgMusic" loop>
+    <source src="music/home-theme.mp3" type="audio/mpeg">
+  </audio>
 
   <script>
+    const PAGE_MUSIC_TRACK = 'music/home-theme.mp3';
+
+    const MUSIC_STORAGE = {
+      enabled: 'site_music_enabled',
+      track: 'site_music_track',
+      time: 'site_music_time',
+      volume: 'site_music_volume',
+      started: 'site_music_started'
+    };
+
     const track = document.getElementById('track');
     const slides = Array.from(document.querySelectorAll('.slide'));
     const dotsWrap = document.getElementById('dots');
@@ -1198,7 +1299,17 @@
     const starA = document.getElementById('starA');
     const starB = document.getElementById('starB');
     const cometA = document.getElementById('cometA');
+    const musicToggle = document.getElementById('musicToggle');
+    const bgMusic = document.getElementById('bgMusic');
+    const copyEmailBtn = document.getElementById('copyEmailBtn');
+    const copyToast = document.getElementById('copyToast');
+
+    const emailAddress = 'noahswagner22@gmail.com';
+
     let index = 0;
+    let musicStarted = false;
+    let musicSaveTimer = null;
+    let musicFadeFrame = null;
 
     slides.forEach((_, i) => {
       const dot = document.createElement('button');
@@ -1248,6 +1359,33 @@
       }, 2200);
     }
 
+    function showCopyToast(text) {
+      copyToast.textContent = text;
+      copyToast.classList.add('show');
+      clearTimeout(copyToast._hide);
+      copyToast._hide = setTimeout(() => {
+        copyToast.classList.remove('show');
+      }, 2200);
+    }
+
+    async function copyEmail() {
+      try {
+        await navigator.clipboard.writeText(emailAddress);
+        showCopyToast(`Copied: ${emailAddress}`);
+      } catch (err) {
+        const tempInput = document.createElement('input');
+        tempInput.value = emailAddress;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        tempInput.setSelectionRange(0, 99999);
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        showCopyToast(`Copied: ${emailAddress}`);
+      }
+    }
+
+    copyEmailBtn.addEventListener('click', copyEmail);
+
     function restartAnimation(el, className) {
       el.classList.remove(className);
       void el.offsetWidth;
@@ -1270,6 +1408,157 @@
 
     setInterval(triggerSkyEvent, 6200);
     setTimeout(triggerSkyEvent, 2200);
+
+    function setMusicButtonState(isPlaying) {
+      if (isPlaying) {
+        musicToggle.innerHTML = 'PAUSE MUSIC <span class="dot"></span>';
+        musicToggle.classList.add('is-playing');
+        musicToggle.setAttribute('aria-label', 'Pause music');
+      } else {
+        musicToggle.innerHTML = 'PLAY MUSIC <span class="dot"></span>';
+        musicToggle.classList.remove('is-playing');
+        musicToggle.setAttribute('aria-label', 'Play music');
+      }
+    }
+
+    function saveMusicState() {
+      localStorage.setItem(MUSIC_STORAGE.enabled, (!bgMusic.paused).toString());
+      localStorage.setItem(MUSIC_STORAGE.track, bgMusic.currentSrc || PAGE_MUSIC_TRACK);
+      localStorage.setItem(MUSIC_STORAGE.time, String(bgMusic.currentTime || 0));
+      localStorage.setItem(MUSIC_STORAGE.volume, String(bgMusic.volume));
+      localStorage.setItem(MUSIC_STORAGE.started, musicStarted ? 'true' : 'false');
+    }
+
+    function startMusicSaveLoop() {
+      if (musicSaveTimer) clearInterval(musicSaveTimer);
+      musicSaveTimer = setInterval(() => {
+        if (!bgMusic.paused) saveMusicState();
+      }, 1000);
+    }
+
+    function stopMusicSaveLoop() {
+      if (musicSaveTimer) {
+        clearInterval(musicSaveTimer);
+        musicSaveTimer = null;
+      }
+    }
+
+    function fadeVolume(targetVolume, duration = 450) {
+      if (musicFadeFrame) cancelAnimationFrame(musicFadeFrame);
+
+      const startVolume = bgMusic.volume;
+      const startTime = performance.now();
+
+      function step(now) {
+        const progress = Math.min((now - startTime) / duration, 1);
+        bgMusic.volume = startVolume + (targetVolume - startVolume) * progress;
+
+        if (progress < 1) {
+          musicFadeFrame = requestAnimationFrame(step);
+        } else {
+          bgMusic.volume = targetVolume;
+          musicFadeFrame = null;
+        }
+      }
+
+      musicFadeFrame = requestAnimationFrame(step);
+    }
+
+    async function playMusic(trackPath, restoreTime = 0, useFade = true) {
+      try {
+        const sourceEl = bgMusic.querySelector('source');
+        const currentTrack = bgMusic.getAttribute('src') || sourceEl?.getAttribute('src') || '';
+        const sameTrack = currentTrack === trackPath;
+
+        if (!sameTrack) {
+          bgMusic.pause();
+          if (sourceEl) {
+            sourceEl.setAttribute('src', trackPath);
+          }
+          bgMusic.src = trackPath;
+          bgMusic.load();
+        }
+
+        bgMusic.currentTime = restoreTime;
+        bgMusic.volume = useFade ? 0 : 1;
+
+        await bgMusic.play();
+
+        musicStarted = true;
+        setMusicButtonState(true);
+        localStorage.setItem(MUSIC_STORAGE.started, 'true');
+
+        if (useFade) {
+          fadeVolume(1, 500);
+        }
+
+        saveMusicState();
+        startMusicSaveLoop();
+      } catch (err) {
+        console.log('Music could not start yet:', err);
+        setMusicButtonState(false);
+      }
+    }
+
+    function pauseMusic() {
+      bgMusic.pause();
+      bgMusic.volume = 1;
+      setMusicButtonState(false);
+      saveMusicState();
+      stopMusicSaveLoop();
+    }
+
+    async function restoreMusicState() {
+      const savedEnabled = localStorage.getItem(MUSIC_STORAGE.enabled) === 'true';
+      const savedTrack = localStorage.getItem(MUSIC_STORAGE.track);
+      const savedTime = parseFloat(localStorage.getItem(MUSIC_STORAGE.time) || '0');
+      const savedVolume = parseFloat(localStorage.getItem(MUSIC_STORAGE.volume) || '1');
+      const savedStarted = localStorage.getItem(MUSIC_STORAGE.started) === 'true';
+
+      musicStarted = savedStarted;
+
+      bgMusic.volume = Number.isFinite(savedVolume) ? savedVolume : 1;
+
+      if (!savedEnabled) {
+        setMusicButtonState(false);
+        bgMusic.src = PAGE_MUSIC_TRACK;
+        return;
+      }
+
+      const restoreSameTrack = savedTrack === PAGE_MUSIC_TRACK || savedTrack?.includes(PAGE_MUSIC_TRACK);
+      const nextTime = restoreSameTrack ? savedTime : 0;
+
+      await playMusic(PAGE_MUSIC_TRACK, nextTime, false);
+      bgMusic.volume = 1;
+      setMusicButtonState(true);
+      saveMusicState();
+    }
+
+    musicToggle.addEventListener('click', async () => {
+      const isCurrentlyPlaying = !bgMusic.paused;
+
+      if (!musicStarted && !isCurrentlyPlaying) {
+        await playMusic(PAGE_MUSIC_TRACK, 0, true);
+        return;
+      }
+
+      if (isCurrentlyPlaying) {
+        pauseMusic();
+      } else {
+        const savedTrack = localStorage.getItem(MUSIC_STORAGE.track);
+        const savedTime = parseFloat(localStorage.getItem(MUSIC_STORAGE.time) || '0');
+        const restoreSameTrack = savedTrack === PAGE_MUSIC_TRACK || savedTrack?.includes(PAGE_MUSIC_TRACK);
+        await playMusic(PAGE_MUSIC_TRACK, restoreSameTrack ? savedTime : 0, true);
+      }
+    });
+
+    window.addEventListener('beforeunload', saveMusicState);
+    window.addEventListener('pagehide', saveMusicState);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) saveMusicState();
+    });
+
+    restoreMusicState();
   </script>
 </body>
 </html>
