@@ -429,6 +429,10 @@
       align-items: start;
     }
 
+    .project-row.two-up {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .project-card-shell {
       perspective: 1300px;
       min-height: 320px;
@@ -518,6 +522,7 @@
     .img-4 { background-image: linear-gradient(135deg, rgba(217,239,78,0.34), rgba(141,144,255,0.36)), url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80'); }
     .img-5 { background-image: linear-gradient(135deg, rgba(243,184,248,0.34), rgba(141,144,255,0.34)), url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80'); }
     .img-6 { background-image: linear-gradient(135deg, rgba(90,255,210,0.28), rgba(217,239,78,0.26)), url('https://images.unsplash.com/photo-1504639725590-34d0984388bd?auto=format&fit=crop&w=1200&q=80'); }
+    .img-7 { background-image: linear-gradient(135deg, rgba(255,184,120,0.28), rgba(141,144,255,0.32)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80'); }
 
     .card-content {
       padding: 20px;
@@ -659,7 +664,8 @@
     }
 
     @media (max-width: 1100px) {
-      .project-row {
+      .project-row,
+      .project-row.two-up {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
@@ -683,7 +689,8 @@
         padding-right: 24px;
       }
 
-      .project-row {
+      .project-row,
+      .project-row.two-up {
         grid-template-columns: 1fr;
       }
 
@@ -733,23 +740,23 @@
     <aside class="info-panel">
       <h2>Projects</h2>
       <p>
-        This page brings together a mix of game development, UX, web, and interactive system work. It shows the range of projects I like building, from multiplayer game ideas and design case studies to full-stack web tools and physical interactive builds.
+        I am a Computer Science and Creative Technology graduate, and this page brings together the work that best represents both sides of my background: technical development and creative execution.
       </p>
       <p>
-        A lot of my work sits between creative direction and technical implementation. I like projects where I can design the experience, solve the system problems, and turn the idea into something real and usable.
+        The projects here span game development, UX/UI, front-end and full-stack web work, and physical interactive systems. As a former CU Buffs football student-athlete, I also bring consistency, discipline, and teamwork to the way I build.
       </p>
       <div class="info-grid">
         <div class="info-card">
           <h3>What is here</h3>
-          <span>Games, UX case studies, web development, creative coding, interactive systems, and physical prototypes.</span>
+          <span>Games, UX/UI case studies, web applications, front-end work, interactive systems, and physical prototypes.</span>
         </div>
         <div class="info-card">
           <h3>How it works</h3>
-          <span>Each card flips open for a larger view with more detail, tools, roles, and project notes.</span>
+          <span>Each card flips open for a larger view with more detail about the project, my role, the tools used, and the goals behind the work.</span>
         </div>
         <div class="info-card">
           <h3>What it shows</h3>
-          <span>My range across design, development, systems thinking, prototyping, and building projects from concept to execution.</span>
+          <span>My range across software, design, systems thinking, prototyping, and turning ideas into polished, functional work.</span>
         </div>
       </div>
     </aside>
@@ -779,10 +786,10 @@
     </nav>
 
     <header class="page-header">
-      <div class="eyebrow">Selected Work • Build Log • Portfolio</div>
+      <div class="eyebrow">Selected Work • Technical + Creative Portfolio</div>
       <h1>Projects</h1>
       <p>
-        Click any card to flip it. The front gives a quick overview, and the back gives more space for the project story, tools, goals, and what I contributed. You can swap in your final images later.
+        Click any card to flip it. The front gives a quick overview, and the back gives more detail about the project story, technical role, design decisions, tools, and what I contributed.
       </p>
     </header>
 
@@ -797,7 +804,7 @@
               <div class="card-content">
                 <span class="tag">Featured Game</span>
                 <h3>Welcome to Suburbia</h3>
-                <p>A multiplayer horror-comedy project set in an endless suburban neighborhood where normal life slowly turns into cult-like chaos and demonic weirdness.</p>
+                <p>A multiplayer horror-comedy game project set in an endless suburban neighborhood where ordinary life slowly breaks into cult chaos and demonic weirdness.</p>
                 <div class="flip-hint">Click to expand + flip</div>
               </div>
             </div>
@@ -805,11 +812,11 @@
               <div class="back-meta">
                 <h3>Welcome to Suburbia</h3>
                 <p>
-                  Welcome to Suburbia is one of my main game projects and a strong example of the kind of work I want to keep building. The game mixes multiplayer interaction, procedural neighborhood ideas, humor, horror, and environmental storytelling into a strange world that feels playful and unsettling at the same time.
+                  Welcome to Suburbia is one of my main game projects and a strong example of the kind of work I want to keep building. It mixes multiplayer interaction, procedural neighborhood ideas, humor, horror, and environmental storytelling into a world that feels playful and unsettling at the same time.
                 </p>
-                <div class="meta-line"><strong>Role:</strong> Game developer, system designer, worldbuilder, and creative direction.</div>
-                <div class="meta-line"><strong>Tools:</strong> Godot, multiplayer systems, gameplay scripting, procedural ideas, 3D workflows.</div>
-                <div class="meta-line wide-note"><strong>Notes:</strong> This project reflects a lot of my interests in games: atmosphere, weird systems, player discovery, multiplayer interaction, and taking a familiar setting like suburbia and turning it into something increasingly wrong and memorable.</div>
+                <div class="meta-line"><strong>Role:</strong> Game developer, systems designer, worldbuilder, and creative direction.</div>
+                <div class="meta-line"><strong>Tools:</strong> Godot, multiplayer systems, gameplay scripting, procedural design ideas, and 3D workflows.</div>
+                <div class="meta-line wide-note"><strong>Notes:</strong> This project reflects a lot of my core interests in games: atmosphere, strange systems, player discovery, multiplayer interaction, and taking a familiar setting like suburbia and turning it into something increasingly wrong and memorable.</div>
                 <div class="back-actions">
                   <a class="mini-btn" href="https://welcometosuburbia.com/" target="_blank" rel="noopener noreferrer">Visit Project</a>
                 </div>
@@ -819,7 +826,7 @@
                 <div class="back-visual-copy">
                   <h4>Visual area</h4>
                   <p>Use this area for a gameplay screenshot, neighborhood environment shot, system breakdown, or multiplayer moment from Welcome to Suburbia.</p>
-                  <p>This is a good place for one of your strongest images from the project.</p>
+                  <p>This is a strong place for one of your best images from the project.</p>
                 </div>
               </div>
             </div>
@@ -833,9 +840,9 @@
                 <div class="image-file-label">cheyenne-case-study.jpg</div>
               </div>
               <div class="card-content">
-                <span class="tag">UX Case Study</span>
+                <span class="tag">UX/UI Case Study</span>
                 <h3>Cheyenne Mountain Zoo Redesign</h3>
-                <p>A UX/UI case study focused on redesigning the Cheyenne Mountain Zoo digital experience with a cleaner visual system and improved ticketing flow.</p>
+                <p>A UX/UI redesign focused on improving the zoo’s digital experience through stronger structure, clearer ticketing flow, and more polished visual presentation.</p>
                 <div class="flip-hint">Click to expand + flip</div>
               </div>
             </div>
@@ -843,11 +850,11 @@
               <div class="back-meta">
                 <h3>Cheyenne Mountain Zoo Redesign</h3>
                 <p>
-                  This project is a UX case study centered on improving the zoo’s digital experience. The work focused on usability, structure, visual design, and a more polished ticket-purchase flow while keeping the site easier to understand and navigate.
+                  This project is a UX/UI case study centered on improving the zoo’s digital experience. The work focused on usability, layout, visual design, and a more polished ticket-purchase flow while keeping the site easier to understand and navigate.
                 </p>
                 <div class="meta-line"><strong>Role:</strong> UX designer, UI designer, researcher, and case study builder.</div>
-                <div class="meta-line"><strong>Tools:</strong> Figma, wireframing, visual design, prototype work, usability thinking.</div>
-                <div class="meta-line wide-note"><strong>Notes:</strong> The project involved identifying pain points in the existing experience, improving navigation and clarity, and creating a cleaner, more intentional interface with a stronger sense of brand and usability.</div>
+                <div class="meta-line"><strong>Tools:</strong> Figma, wireframing, interface design, prototypes, usability testing, and visual system work.</div>
+                <div class="meta-line wide-note"><strong>Notes:</strong> The project involved identifying pain points in the existing experience, improving clarity and navigation, and creating a cleaner interface with stronger usability and stronger brand presence.</div>
                 <div class="back-actions">
                   <a class="mini-btn" href="projects.html">View Project</a>
                 </div>
@@ -856,8 +863,8 @@
                 <div class="back-visual-image img-2"></div>
                 <div class="back-visual-copy">
                   <h4>Visual area</h4>
-                  <p>Use this side for your homepage redesign, ticket flow screens, wireframes, or case study visuals.</p>
-                  <p>This would be a strong place for one polished mockup or a before/after image.</p>
+                  <p>Use this side for homepage redesigns, ticket flow screens, wireframes, or case study visuals.</p>
+                  <p>This would be a strong place for one polished mockup or a before-and-after image.</p>
                 </div>
               </div>
             </div>
@@ -883,8 +890,8 @@
                 <p>
                   LearnMaster is a collaborative web application designed to make studying more organized and flexible. It gives users tools to build their own study sets, review flashcards, and take quizzes in a more customized learning environment.
                 </p>
-                <div class="meta-line"><strong>Role:</strong> Contributor on full-stack web development and project implementation with Colin O'Connor, Kyle Okura, Adarsh Charugundla, and Matthew Egyed.</div>
-                <div class="meta-line"><strong>Tools:</strong> HTML, CSS, JavaScript, Node.js, Express.js, PostgreSQL, Handlebars, bcrypt, sessions, Docker.</div>
+                <div class="meta-line"><strong>Role:</strong> Contributor on full-stack web development and implementation with Colin O'Connor, Kyle Okura, Adarsh Charugundla, and Matthew Egyed.</div>
+                <div class="meta-line"><strong>Tools:</strong> HTML, CSS, JavaScript, Node.js, Express.js, PostgreSQL, Handlebars, bcrypt, sessions, and Docker.</div>
                 <div class="meta-line wide-note"><strong>Notes:</strong> This project shows my experience with collaborative web development, authentication, backend systems, database work, and building a practical user-focused application from concept to deployment.</div>
                 <div class="back-actions">
                   <a class="mini-btn" href="http://recitation-15-team-06.eastus.cloudapp.azure.com:3000/study/2" target="_blank" rel="noopener noreferrer">View Project</a>
@@ -905,7 +912,7 @@
 
       <div class="section-break"></div>
 
-      <section class="project-row">
+      <section class="project-row two-up">
         <article class="project-card-shell">
           <div class="project-flip">
             <div class="card-face card-front">
@@ -926,8 +933,8 @@
                   This project combines physical computing, display output, enclosure thinking, and interaction design. The goal was to create a system that could sense room presence and communicate that count in a clear, engaging way through an RGB matrix.
                 </p>
                 <div class="meta-line"><strong>Role:</strong> Interactive systems builder, prototyper, and enclosure designer.</div>
-                <div class="meta-line"><strong>Tools:</strong> Arduino-style prototyping, sensors, matrix display work, enclosure design, fabrication.</div>
-                <div class="meta-line wide-note"><strong>Notes:</strong> This project reflects my interest in connecting code, electronics, fabrication, and visual output into one cohesive build. It shows how I approach both technical functionality and the physical presentation of a project.</div>
+                <div class="meta-line"><strong>Tools:</strong> Arduino-style prototyping, sensors, matrix display work, enclosure design, and fabrication.</div>
+                <div class="meta-line wide-note"><strong>Notes:</strong> This project reflects my interest in connecting code, electronics, fabrication, and visual output into one cohesive build. It shows how I approach both technical functionality and physical presentation.</div>
                 <div class="back-actions">
                   <a class="mini-btn" href="projects.html">View Project</a>
                 </div>
@@ -937,7 +944,7 @@
                 <div class="back-visual-copy">
                   <h4>Visual area</h4>
                   <p>Use this side for the matrix display, enclosure process, wiring, or final setup photos.</p>
-                  <p>This would also be a great place for a prototype-to-final comparison image.</p>
+                  <p>This would also be a good place for a prototype-to-final comparison image.</p>
                 </div>
               </div>
             </div>
@@ -947,7 +954,87 @@
         <article class="project-card-shell">
           <div class="project-flip">
             <div class="card-face card-front">
+              <div class="card-image img-7">
+                <div class="image-file-label">fabrication-prototyping.jpg</div>
+              </div>
+              <div class="card-content">
+                <span class="tag">Physical + Fabrication</span>
+                <h3>Physical Prototyping and Fabrication</h3>
+                <p>A dedicated space for hardware-based builds, prototyping, fabrication workflows, and projects that combine physical form with technical execution.</p>
+                <div class="flip-hint">Click to expand + flip</div>
+              </div>
+            </div>
+            <div class="card-face card-back">
+              <div class="back-meta">
+                <h3>Physical Prototyping and Fabrication</h3>
+                <p>
+                  This section separates my fabrication and physical build work from my UX/UI work more clearly. It covers projects where the outcome depends on iteration through materials, enclosure design, assembly, electronics, and hands-on making.
+                </p>
+                <div class="meta-line"><strong>Role:</strong> Prototyper, maker, fabrication-focused builder, and technical problem solver.</div>
+                <div class="meta-line"><strong>Tools:</strong> 3D printing, Arduino, enclosure design, laser cutting, basic electronics, and physical prototyping workflows.</div>
+                <div class="meta-line wide-note"><strong>Notes:</strong> This space is useful for showing that my work is not only digital. It highlights my ability to move from concept into physical testing, iteration, and final presentation across interactive builds.</div>
+                <div class="back-actions">
+                  <a class="mini-btn" href="projects.html">View Project</a>
+                </div>
+              </div>
+              <div class="back-visual">
+                <div class="back-visual-image img-7"></div>
+                <div class="back-visual-copy">
+                  <h4>Visual area</h4>
+                  <p>Use this area for fabrication process shots, prototypes, assemblies, 3D printed parts, or finished physical systems.</p>
+                  <p>This is where you can showcase the making side of your work more directly.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <div class="section-break"></div>
+
+      <section class="project-row two-up">
+        <article class="project-card-shell">
+          <div class="project-flip">
+            <div class="card-face card-front">
               <div class="card-image img-5">
+                <div class="image-file-label">ux-front-end-work.jpg</div>
+              </div>
+              <div class="card-content">
+                <span class="tag">UX + Front-End</span>
+                <h3>UX and Front-End Work</h3>
+                <p>A space for interface design, layout systems, polished front-end execution, and the workflow of moving from concepts and wireframes into usable digital products.</p>
+                <div class="flip-hint">Click to expand + flip</div>
+              </div>
+            </div>
+            <div class="card-face card-back">
+              <div class="back-meta">
+                <h3>UX and Front-End Work</h3>
+                <p>
+                  This card separates my UX/UI and front-end work from my physical work. It is a better place to show how I translate layouts, design direction, and usability thinking into polished screens and functional interfaces.
+                </p>
+                <div class="meta-line"><strong>Role:</strong> UX/UI designer, front-end builder, and layout-to-interface problem solver.</div>
+                <div class="meta-line"><strong>Tools:</strong> Figma, HTML, CSS, JavaScript, wireframing, visual design, and interface iteration.</div>
+                <div class="meta-line wide-note"><strong>Notes:</strong> This section supports the more professional side of the portfolio by showing that I can work through both design thinking and implementation. It is a strong place to show front-end polish and clear user-centered work.</div>
+                <div class="back-actions">
+                  <a class="mini-btn" href="projects.html">View Project</a>
+                </div>
+              </div>
+              <div class="back-visual">
+                <div class="back-visual-image img-5"></div>
+                <div class="back-visual-copy">
+                  <h4>Visual area</h4>
+                  <p>Use this side for interface screens, polished layouts, responsive web work, or design-to-code examples.</p>
+                  <p>This is a strong place for your best UX/UI and front-end visuals.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card-shell">
+          <div class="project-flip">
+            <div class="card-face card-front">
+              <div class="card-image img-6">
                 <div class="image-file-label">wizza.jpg</div>
               </div>
               <div class="card-content">
@@ -964,46 +1051,8 @@
                   Wizza is a 3D platform shooter project built around movement, playful combat, and a more action-focused game feel. It fits into the side of my work that explores game mechanics, player control, and the overall rhythm of a playable system.
                 </p>
                 <div class="meta-line"><strong>Role:</strong> Game developer, gameplay designer, and systems builder.</div>
-                <div class="meta-line"><strong>Tools:</strong> Game engine workflows, gameplay scripting, 3D design thinking, prototype iteration.</div>
+                <div class="meta-line"><strong>Tools:</strong> Game engine workflows, gameplay scripting, 3D design thinking, and prototype iteration.</div>
                 <div class="meta-line wide-note"><strong>Notes:</strong> This project is a good example of my interest in building mechanics-forward interactive work and exploring the relationship between movement, shooting, player feel, and visual identity in a game prototype.</div>
-                <div class="back-actions">
-                  <a class="mini-btn" href="projects.html">View Project</a>
-                </div>
-              </div>
-              <div class="back-visual">
-                <div class="back-visual-image img-5"></div>
-                <div class="back-visual-copy">
-                  <h4>Visual area</h4>
-                  <p>Use this side for action shots, level screenshots, character moments, or a combat/mechanics view from Wizza.</p>
-                  <p>You could also show an environment still or enemy interaction here.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <article class="project-card-shell">
-          <div class="project-flip">
-            <div class="card-face card-front">
-              <div class="card-image img-6">
-                <div class="image-file-label">future-project.jpg</div>
-              </div>
-              <div class="card-content">
-                <span class="tag">More Work</span>
-                <h3>Additional Creative Tech Work</h3>
-                <p>A flexible card for another project, prototype, experiment, or future case study you want to add once you choose the final piece.</p>
-                <div class="flip-hint">Click to expand + flip</div>
-              </div>
-            </div>
-            <div class="card-face card-back">
-              <div class="back-meta">
-                <h3>Additional Creative Tech Work</h3>
-                <p>
-                  Keep this card open for another project you want to feature later. It could be another game, a fabrication build, a UX project, or an experimental prototype depending on what you want the final portfolio to emphasize most.
-                </p>
-                <div class="meta-line"><strong>Role:</strong> Open slot for another major project.</div>
-                <div class="meta-line"><strong>Tools:</strong> Update this depending on the final project you choose to feature.</div>
-                <div class="meta-line wide-note"><strong>Notes:</strong> This is a good place to add one more polished project so the page can keep growing without changing the structure. You can replace this with another strong game, system build, or web/design piece.</div>
                 <div class="back-actions">
                   <a class="mini-btn" href="projects.html">View Project</a>
                 </div>
@@ -1012,8 +1061,8 @@
                 <div class="back-visual-image img-6"></div>
                 <div class="back-visual-copy">
                   <h4>Visual area</h4>
-                  <p>Drop in another strong project screenshot here once you decide what the sixth featured project will be.</p>
-                  <p>This keeps the layout finished while giving you flexibility later.</p>
+                  <p>Use this side for action shots, level screenshots, character moments, or a combat and mechanics view from Wizza.</p>
+                  <p>You could also show an environment still or enemy interaction here.</p>
                 </div>
               </div>
             </div>
