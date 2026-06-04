@@ -489,6 +489,7 @@
       overflow: hidden;
       box-shadow: 0 26px 60px rgba(0,0,0,0.18);
       transition: transform .28s ease, border-color .28s ease;
+      cursor: pointer;
     }
 
     .game-card:hover {
@@ -662,6 +663,8 @@
       background: rgba(255,255,255,0.04);
       transition: transform .2s ease, border-color .2s ease, color .2s ease, background .2s ease;
       width: fit-content;
+      position: relative;
+      z-index: 3;
     }
 
     .mini-btn:hover {
@@ -713,14 +716,20 @@
       color: rgba(255,255,255,0.8);
     }
 
+    .back-shot-copy p {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.74);
+    }
+
     .side-path {
       position: absolute;
       left: -96px;
       top: 0;
       bottom: -42px;
       width: 150px;
-      pointer-events: auto;
-      z-index: 7;
+      pointer-events: none;
+      z-index: 40;
     }
 
     .side-path.right {
@@ -767,13 +776,14 @@
       height: 42px;
       transform: translate(-50%, -50%);
       image-rendering: pixelated;
-      z-index: 8;
+      z-index: 42;
       cursor: pointer;
       pointer-events: auto;
       transition: transform .16s ease;
       border: none;
       background: transparent;
       padding: 0;
+      touch-action: manipulation;
     }
 
     .alien-runner:hover {
@@ -792,6 +802,7 @@
       height: 6px;
       background: var(--pixel-green);
       box-shadow: 0 0 0 1px rgba(0,0,0,0.06);
+      pointer-events: none;
     }
 
     .alien-runner .eye {
@@ -820,16 +831,17 @@
       text-align: center;
       color: rgba(255,255,255,0.88);
       white-space: nowrap;
-      background: rgba(20,22,44,0.9);
+      background: rgba(20,22,44,0.96);
       border: 1px solid rgba(255,255,255,0.12);
       border-radius: 999px;
       backdrop-filter: blur(10px);
       box-shadow: 0 10px 22px rgba(0,0,0,0.18);
       cursor: pointer;
       pointer-events: auto;
-      z-index: 12;
+      z-index: 45;
       appearance: none;
       -webkit-appearance: none;
+      touch-action: manipulation;
       transition:
         transform .2s ease,
         color .2s ease,
@@ -1025,7 +1037,7 @@
               <p>
                 A multiplayer horror-comedy experience set in an endless suburban neighborhood where the HOA is actually a demon cult. The project mixes procedural generation, strange systems, humor, tension, and escalating horror into a world that feels both funny and unsettling.
               </p>
-              <div class="flip-hint">Opened by the alien guide</div>
+              <div class="flip-hint">Click card or use guide</div>
             </div>
           </div>
 
@@ -1070,9 +1082,11 @@
                 <div class="image-file-label">welcome-to-suburbia-detail.jpg</div>
               </div>
               <div class="back-shot-copy">
-                <h3>Visual area</h3>
+                <h3>Image Paths</h3>
                 <p>
-                  Use this space for a screenshot, gameplay moment, environment shot, system breakdown, or multiplayer view from Welcome to Suburbia.
+                  images/welcome-to-suburbia-1.jpg<br>
+                  images/welcome-to-suburbia-2.jpg<br>
+                  images/welcome-to-suburbia-3.jpg
                 </p>
               </div>
             </div>
@@ -1126,7 +1140,7 @@
               <p>
                 A movement-focused multiplayer PvP game in progress built around stealing the objective, escaping with it, and outplaying other players in fast objective-driven matches.
               </p>
-              <div class="flip-hint">Opened by the alien guide</div>
+              <div class="flip-hint">Click card or use guide</div>
             </div>
           </div>
 
@@ -1167,9 +1181,11 @@
                 <div class="image-file-label">stealsteel-detail.jpg</div>
               </div>
               <div class="back-shot-copy">
-                <h3>Visual area</h3>
+                <h3>Image Paths</h3>
                 <p>
-                  Use this area for prototype screenshots, objective gameplay moments, movement testing, or an early arena view from StealSteel.
+                  images/stealsteel-1.jpg<br>
+                  images/stealsteel-2.jpg<br>
+                  images/stealsteel-3.jpg
                 </p>
               </div>
             </div>
@@ -1223,7 +1239,7 @@
               <p>
                 A placeholder for another game, prototype, or experimental world that is still taking shape. This section keeps room open for the next project as it develops.
               </p>
-              <div class="flip-hint">Opened by the alien guide</div>
+              <div class="flip-hint">Click card or use guide</div>
             </div>
           </div>
 
@@ -1262,9 +1278,11 @@
                 <div class="image-file-label">work-in-progress-detail.jpg</div>
               </div>
               <div class="back-shot-copy">
-                <h3>Visual area</h3>
+                <h3>Image Paths</h3>
                 <p>
-                  Use this space for future screenshots, concept images, or a feature preview once the next project is ready.
+                  images/project-3-1.jpg<br>
+                  images/project-3-2.jpg<br>
+                  images/project-3-3.jpg
                 </p>
               </div>
             </div>
@@ -1467,6 +1485,13 @@
       requestAnimationFrame(step);
     }
 
+    gameCards.forEach((card) => {
+      card.addEventListener('click', (event) => {
+        if (event.target.closest('a, button')) return;
+        openCardById(card.id);
+      });
+    });
+
     connectors.forEach((connector) => {
       placeAlien(connector, 0);
 
@@ -1479,10 +1504,16 @@
       };
 
       if (alien) {
-        alien.addEventListener('click', runToNext);
+        alien.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          runToNext();
+        });
+
         alien.addEventListener('keydown', (event) => {
           if (event.key === 'Enter' || event.key === ' ') {
             event.preventDefault();
+            event.stopPropagation();
             runToNext();
           }
         });
